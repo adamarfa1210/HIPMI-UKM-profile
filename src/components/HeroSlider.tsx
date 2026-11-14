@@ -30,7 +30,7 @@ export function HeroSlider() {
   return (
     <section
       aria-label="Hero Banner HIPMI PT Universitas Telkom"
-      className="relative flex min-h-[680px] w-full flex-col justify-between overflow-hidden bg-[#06231D]"
+      className="relative flex min-h-[640px] w-full flex-col justify-end overflow-hidden bg-[#06231D] lg:min-h-[680px]"
     >
       {/* Full-Bleed Backdrop Layers */}
       {HERO_SLIDES.map((slide, idx) => (
@@ -52,64 +52,50 @@ export function HeroSlider() {
         </div>
       ))}
 
-      {/* Asymmetric Left-to-Right Gradient Scrim (WCAG AA contrast R-25) */}
+      {/* Clean Atmospheric Scrim Over Full-Bleed Photography (Kideco Style) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#06231D_0%,rgba(6,35,29,0.92)_38%,rgba(6,35,29,0.58)_68%,rgba(6,35,29,0.22)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,35,29,0.52)_0%,rgba(6,35,29,0.34)_40%,rgba(6,35,29,0.82)_100%),linear-gradient(90deg,rgba(6,35,29,0.86)_0%,rgba(6,35,29,0.58)_46%,rgba(6,35,29,0.18)_100%)]"
       />
 
       {/* Content Container */}
-      <div className="relative z-10 mx-auto flex min-h-[680px] w-full max-w-[1280px] flex-col justify-between px-4 py-10 sm:px-6 lg:px-10">
-        {/* Top Meta Strip */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#1E593B] bg-[#06231D]/85 px-4 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.06em] text-[#E3EF26] backdrop-blur-xs">
-            <span aria-hidden="true">●</span>
-            BACKDROP SLIDE {currentSlide.indexLabel} &bull; FADE 5.0 DETIK
-          </span>
-          <span className="rounded-full border border-[#124236] bg-[#06231D]/80 px-4 py-1.5 text-xs text-[#C7DCD2] backdrop-blur-xs">
-            Ekosistem Pengusaha Muda Kampus
-          </span>
-        </div>
+      <div className="relative z-10 mx-auto flex min-h-[640px] w-full max-w-[1280px] flex-col justify-end px-4 pb-12 pt-20 sm:px-6 lg:min-h-[680px] lg:px-10 lg:pb-14">
+        {/* Main Editorial Headline & Narrative (Clean Photo-Forward Hero) */}
+        <div className="max-w-2xl pb-10">
+          <p className="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-[#E3EF26]">
+            UKM KEWIRAUSAHAAN &bull; UNIVERSITAS TELKOM
+          </p>
 
-        {/* Main Left Copy */}
-        <div className="my-10 max-w-2xl">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="h-[2px] w-8 bg-[#E3EF26]" aria-hidden="true" />
-            <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
-              UKM KEWIRAUSAHAAN &bull; UNIVERSITAS TELKOM
-            </p>
-          </div>
-
-          <h1 className="font-display text-[36px] font-extrabold leading-[1.08] tracking-[-0.02em] text-[#FFFDEE] sm:text-[48px] lg:text-[54px]">
+          <h1 className="mt-4 font-display text-[36px] font-extrabold leading-[1.08] tracking-[-0.02em] text-white sm:text-[48px] lg:text-[56px]">
             {currentSlide.title}
           </h1>
 
-          <p className="mt-5 max-w-xl text-base leading-[1.6] text-[#FFFDEE]/90 sm:text-[17px]">
+          <p className="mt-5 max-w-xl text-base leading-[1.65] text-white/88 sm:text-[17px]">
             {currentSlide.subtitle}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-6">
             <Link
               href="/partnership"
-              className="inline-flex min-h-[48px] items-center rounded-[4px] bg-[#E3EF26] px-6 font-display text-sm font-bold text-[#06231D] transition hover:bg-[#E2FBCE]"
+              className="inline-flex min-h-[46px] items-center rounded-[2px] bg-[#E3EF26] px-6 font-display text-xs font-bold uppercase tracking-[0.06em] text-[#06231D] transition hover:bg-white"
             >
               Jelajahi Kemitraan
             </Link>
             <Link
               href="/program-kerja/okk"
-              className="inline-flex min-h-[48px] items-center rounded-[4px] border border-[#1E593B] bg-[#0C342C]/90 px-6 font-display text-sm font-bold text-[#FFFDEE] transition hover:border-[#E3EF26] hover:text-[#E3EF26]"
+              className="inline-flex min-h-[44px] items-center gap-2 font-display text-sm font-bold text-white transition hover:text-[#E3EF26]"
             >
-              Lihat Program Kerja
+              <span>Lihat Program Kerja</span>
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
 
-        {/* Bottom Controls Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[#124236]/80 pt-5">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-medium text-[#C7DCD2]">
-              {currentSlide.indexLabel} &bull;{" "}
-              {paused ? "Dijeda" : "Auto-Fade 5.0s"}
+        {/* Minimal Kideco-Style Bottom Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-5">
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="font-mono text-xs font-medium tracking-wider text-white/75">
+              {currentSlide.indexLabel}
             </span>
             <div className="flex items-center gap-1" role="tablist" aria-label="Pilih slide hero">
               {HERO_SLIDES.map((s, idx) => (
@@ -120,13 +106,13 @@ export function HeroSlider() {
                   aria-selected={idx === activeIndex}
                   aria-label={`Tampilkan slide hero ${idx + 1}`}
                   onClick={() => setActiveIndex(idx)}
-                  className="inline-flex h-11 min-w-[28px] cursor-pointer items-center justify-center px-1"
+                  className="inline-flex h-9 min-w-[24px] cursor-pointer items-center justify-center px-1"
                 >
                   <span
-                    className={`block h-1.5 rounded-full transition-all ${
+                    className={`block h-1 rounded-full transition-all ${
                       idx === activeIndex
-                        ? "w-8 bg-[#E3EF26]"
-                        : "w-3 bg-[#1E593B] hover:bg-[#C7DCD2]"
+                        ? "w-7 bg-[#E3EF26]"
+                        : "w-2.5 bg-white/35 hover:bg-white/70"
                     }`}
                   />
                 </button>
@@ -134,12 +120,12 @@ export function HeroSlider() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-4">
             <button
               type="button"
               onClick={() => setPaused((p) => !p)}
               aria-pressed={paused}
-              className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-[4px] border border-[#1E593B] bg-[#06231D]/90 px-4 text-xs font-semibold text-[#FFFDEE] transition hover:border-[#E3EF26] hover:text-[#E3EF26]"
+              className="inline-flex min-h-[40px] cursor-pointer items-center gap-2 text-xs font-semibold text-white/80 transition hover:text-[#E3EF26]"
             >
               <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
               <span>{paused ? "Putar Slide" : "Jeda Slide"}</span>
@@ -148,10 +134,10 @@ export function HeroSlider() {
             <button
               type="button"
               onClick={() => setVideoModalOpen(true)}
-              className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-[4px] border border-[#E3EF26]/50 bg-[#09352C]/90 px-4 font-display text-xs font-bold text-[#E3EF26] transition hover:bg-[#076653]"
+              className="inline-flex min-h-[40px] cursor-pointer items-center gap-2 border-l border-white/20 pl-4 font-display text-xs font-bold text-[#E3EF26] transition hover:text-white"
             >
               <span aria-hidden="true">▶</span>
-              <span>Video Company Profile</span>
+              <span>Putar Video Profil</span>
             </button>
           </div>
         </div>

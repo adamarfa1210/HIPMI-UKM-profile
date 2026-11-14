@@ -10,34 +10,35 @@ export function PartnershipMarquee() {
   return (
     <section
       id="partnership"
-      className="bg-[#0C342C] py-14 text-[#FFFDEE] md:py-16"
+      className="border-y border-[#ECEEEF] bg-[#F8F8F8] py-14 text-[#313238] md:py-16"
     >
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
-              02 / PARTNERSHIP &bull; LOGO MARQUEE
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
+              MITRA &amp; JARINGAN KOLABORASI
             </p>
-            <h2 className="mt-2 font-display text-[26px] font-extrabold leading-tight sm:text-[32px]">
-              Mitra &amp; Jaringan Kolaborasi
+            <h2 className="mt-2 font-display text-[26px] font-extrabold leading-tight tracking-[-0.02em] text-[#313238] sm:text-[32px]">
+              Ekosistem Mitra Strategis
             </h2>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={() => setPaused((p) => !p)}
               aria-pressed={paused}
-              className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-[4px] border border-[#1E593B] bg-[#06231D] px-4 text-[13px] font-semibold text-[#FFFDEE] transition hover:border-[#E3EF26] hover:text-[#E3EF26]"
+              className="inline-flex min-h-[42px] cursor-pointer items-center gap-2 rounded-[2px] border border-[#D1D5DB] bg-white px-4 text-xs font-semibold text-[#313238] transition hover:border-[#06231D] hover:text-[#06231D]"
             >
               <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
               <span>{paused ? "Putar Marquee" : "Jeda Marquee"}</span>
             </button>
             <Link
               href="/partnership"
-              className="inline-flex min-h-[44px] items-center rounded-[4px] bg-[#E3EF26] px-4 font-display text-xs font-bold text-[#06231D] transition hover:bg-[#E2FBCE]"
+              className="inline-flex min-h-[42px] items-center gap-1.5 rounded-[2px] bg-[#06231D] px-5 font-display text-xs font-bold text-[#E3EF26] transition hover:bg-[#076653]"
             >
-              Semua Kemitraan &rarr;
+              <span>Tampilkan lebih banyak</span>
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
@@ -51,32 +52,32 @@ export function PartnershipMarquee() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#0C342C] to-transparent sm:w-20"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#F8F8F8] to-transparent sm:w-20"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#0C342C] to-transparent sm:w-20"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#F8F8F8] to-transparent sm:w-20"
         />
 
-        <div className="animate-marquee items-center gap-8 px-4">
+        <div className="animate-marquee items-center gap-6 px-4">
           {[...PARTNER_ITEMS, ...PARTNER_ITEMS].map((partner, index) => (
             <div
               key={`${partner.id}-${index}`}
-              className="flex h-[92px] w-[240px] shrink-0 items-center gap-3 rounded-[8px] border border-[#124236] bg-[#09352C] px-4 py-3"
+              className="flex h-[88px] w-[250px] shrink-0 items-center gap-3.5 border border-[#E5E7EB] bg-white px-4 py-3"
             >
               <img
                 src={partner.imageSrc}
                 alt={partner.imageAlt}
-                width={56}
-                height={56}
-                className="h-14 w-14 shrink-0 rounded-[4px] bg-[#F6FAF9] object-contain p-1"
+                width={52}
+                height={52}
+                className="h-13 w-13 shrink-0 object-contain"
                 loading="lazy"
               />
               <div className="min-w-0">
-                <p className="truncate font-display text-xs font-bold text-[#FFFDEE]">
+                <p className="truncate font-display text-xs font-bold text-[#313238]">
                   {partner.name}
                 </p>
-                <p className="mt-0.5 truncate text-[11px] text-[#C7DCD2]">
+                <p className="mt-0.5 truncate text-[11px] text-[#5E636B]">
                   {partner.category}
                 </p>
               </div>

@@ -6,7 +6,8 @@
   --surface-elevated: #09352C;
   --surface-emerald: #076653;
 
-  --bg-cream: #FFFDEE;
+  --bg-cream: #FFFFFF;
+  --bg-surface-muted: #F7F7F8;
   --tint-mint: #E2FBCE;
   --surface-card: #FFFFFF;
 
@@ -14,13 +15,13 @@
 
   --text-cream: #FFFDEE;
   --text-cream-muted: #C7DCD2;
-  --text-ink: #06231D;
-  --text-ink-muted: #2F4F46;
+  --text-ink: #313238;
+  --text-ink-muted: #5E636B;
 
   /* Borders & Hairlines */
   --border-dark: #124236;
   --border-dark-subtle: #1E593B;
-  --border-light: #D4E4DC;
+  --border-light: #E5E7EB;
 
   /* Typography */
   --font-display: var(--font-montserrat), 'Montserrat', system-ui, -apple-system, sans-serif;

@@ -18,24 +18,24 @@ export function SubpageBannerCta({
   return (
     <section
       id="kontak-kolaborasi"
-      className="border-t border-[#124236] bg-[#0C342C] py-14 text-[#FFFDEE]"
+      className="border-t border-[#ECEEEF] bg-[#F7F7F8] py-14 text-[#313238]"
     >
-      <div className="mx-auto flex max-w-[1280px] flex-col items-start justify-between gap-6 px-4 sm:px-6 md:flex-row md:items-center lg:px-10">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-4 sm:px-6 md:flex-row md:items-center lg:px-10">
         <div className="max-w-2xl">
-          <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
+          <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
             {eyebrow}
           </p>
-          <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-[28px]">
+          <h2 className="mt-2 font-display text-2xl font-extrabold tracking-[-0.02em] text-[#313238] sm:text-[28px]">
             {heading}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-[#C7DCD2]">
+          <p className="mt-2 text-sm leading-[1.7] text-[#5E636B]">
             {description}
           </p>
         </div>
 
         <Link
           href={ctaHref}
-          className="inline-flex min-h-[48px] shrink-0 items-center rounded-[4px] bg-[#E3EF26] px-6 font-display text-sm font-bold text-[#06231D] transition hover:bg-[#E2FBCE]"
+          className="inline-flex min-h-[46px] shrink-0 items-center rounded-[2px] bg-[#06231D] px-6 font-display text-xs font-bold uppercase tracking-[0.06em] text-[#E3EF26] transition hover:bg-[#076653]"
         >
           {ctaLabel} &rarr;
         </Link>
