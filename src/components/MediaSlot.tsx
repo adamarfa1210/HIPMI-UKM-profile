@@ -29,16 +29,19 @@ export function MediaSlot({
     if (fit === "poster") {
       return (
         <div
-          className={`relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-[#09352C] to-[#06231D] p-4 ${className}`}
+          className={`relative h-full w-full overflow-hidden bg-[#06231D] ${className}`}
         >
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            width={width}
-            height={height}
-            className="h-full max-h-full w-full rounded-[6px] object-contain shadow-2xl"
-            loading="lazy"
-          />
+          {/* Edge-to-edge full-height right-focused poster backdrop like Desktop 1 Hero */}
+          <div className="h-full w-full lg:ml-auto lg:w-[40%]">
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              width={width}
+              height={height}
+              className="h-full w-full object-cover object-top"
+              loading="lazy"
+            />
+          </div>
         </div>
       );
     }
@@ -54,6 +57,32 @@ export function MediaSlot({
         } ${className}`}
         loading="lazy"
       />
+    );
+  }
+
+  if (fit === "poster") {
+    return (
+      <div
+        className={`relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-[#06231D] via-[#09352C] to-[#076653]/45 ${className}`}
+        role="img"
+        aria-label={imageAlt}
+      >
+        <div
+          className="pointer-events-none absolute right-[-6%] top-[-18%] h-80 w-80 rounded-full bg-[#E3EF26]/10 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="hidden flex-col items-center px-10 text-center lg:flex lg:w-full lg:pl-[48%]">
+          <span className="mb-3 inline-flex items-center rounded-full border border-[#E3EF26]/40 bg-[#06231D]/85 px-3 py-1 font-display text-[11px] font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
+            Slot Visual Resmi
+          </span>
+          <p className="max-w-sm font-display text-base font-bold text-[#FFFDEE]">
+            {imageAlt}
+          </p>
+          {slotLabel ? (
+            <p className="mt-2 font-mono text-xs text-[#C7DCD2]">{slotLabel}</p>
+          ) : null}
+        </div>
+      </div>
     );
   }
 

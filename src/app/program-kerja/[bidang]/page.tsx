@@ -92,17 +92,13 @@ export default async function ProgramKerjaBidangPage({
         </div>
       </section>
 
-      {/* Hero-Style Compartments Stack with 12px #041612 Dividers */}
-      {currentBidang.compartments.map((compartment, idx) => (
-        <div key={compartment.id}>
-          {idx > 0 ? (
-            <div className="h-3 w-full bg-[#041612]" aria-hidden="true" />
-          ) : null}
-          <CompartmentStageCard
-            bidangName={currentBidang.title}
-            compartment={compartment}
-          />
-        </div>
+      {/* Hero-Style Compartments Stack (seamless without dark separator bars) */}
+      {currentBidang.compartments.map((compartment) => (
+        <CompartmentStageCard
+          key={compartment.id}
+          bidangName={currentBidang.title}
+          compartment={compartment}
+        />
       ))}
     </>
   );

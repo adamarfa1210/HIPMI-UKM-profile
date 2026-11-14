@@ -22,6 +22,7 @@ export function Navbar() {
   useEffect(() => {
     setDropdownOpen(false);
     setMobileOpen(false);
+    setMobileProkerOpen(pathname.startsWith("/program-kerja"));
   }, [pathname]);
 
   useEffect(() => {
@@ -218,49 +219,78 @@ export function Navbar() {
           className="border-t border-[#124236] bg-[#06231D] px-4 pb-6 pt-3 lg:hidden"
         >
           <nav aria-label="Navigasi seluler" className="flex flex-col gap-1">
-            {NAV_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium text-[#FFFDEE] hover:bg-[#0C342C] hover:text-[#E3EF26]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((item) => {
+              const active = item.href !== "/#tentang" && pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={`flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium transition hover:bg-[#0C342C] hover:text-[#E3EF26] ${
+                    active ? "bg-[#0C342C] text-[#E3EF26]" : "text-[#FFFDEE]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
 
             <div>
               <button
                 type="button"
                 onClick={() => setMobileProkerOpen((v) => !v)}
                 aria-expanded={mobileProkerOpen}
-                className="flex min-h-[44px] w-full cursor-pointer items-center justify-between rounded-[4px] px-3 text-sm font-medium text-[#E3EF26] hover:bg-[#0C342C]"
+                className={`flex min-h-[44px] w-full cursor-pointer items-center justify-between rounded-[4px] px-3 text-sm font-medium transition hover:bg-[#0C342C] hover:text-[#E3EF26] ${
+                  isProkerActive ? "bg-[#0C342C] text-[#E3EF26]" : "text-[#FFFDEE]"
+                }`}
               >
                 <span>Program Kerja</span>
                 <span>{mobileProkerOpen ? "▴" : "▾"}</span>
               </button>
               {mobileProkerOpen ? (
                 <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-[#124236] pl-3">
-                  {BIDANG_LIST.map((bidang) => (
-                    <Link
-                      key={bidang.slug}
-                      href={`/program-kerja/${bidang.slug}`}
-                      className="flex min-h-[44px] flex-col justify-center rounded-[4px] px-3 py-1.5 hover:bg-[#09352C]"
-                    >
-                      <span className="font-display text-xs font-bold text-[#FFFDEE]">
-                        Bidang {bidang.shortName}
-                      </span>
-                      <span className="text-[11px] text-[#C7DCD2]">
-                        {bidang.compartmentSummary}
-                      </span>
-                    </Link>
-                  ))}
+                  {BIDANG_LIST.map((bidang) => {
+                    const current = pathname === `/program-kerja/${bidang.slug}`;
+                    return (
+                      <Link
+                        key={bidang.slug}
+                        href={`/program-kerja/${bidang.slug}`}
+                        onClick={() => setMobileOpen(false)}
+                        aria-current={current ? "page" : undefined}
+                        className={`flex min-h-[44px] flex-col justify-center rounded-[4px] px-3 py-1.5 transition ${
+                          current
+                            ? "border border-[#E3EF26]/50 bg-[#09352C]"
+                            : "hover:bg-[#09352C]"
+                        }`}
+                      >
+                        <span
+                          className={`font-display text-xs font-bold ${
+                            current ? "text-[#E3EF26]" : "text-[#FFFDEE]"
+                          }`}
+                        >
+                          Bidang {bidang.shortName}
+                          {current ? "  →" : ""}
+                        </span>
+                        <span className="text-[11px] text-[#C7DCD2]">
+                          {bidang.compartmentSummary}
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               ) : null}
             </div>
 
             <Link
               href="/testimoni"
-              className="flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium text-[#FFFDEE] hover:bg-[#0C342C] hover:text-[#E3EF26]"
+              onClick={() => setMobileOpen(false)}
+              aria-current={pathname === "/testimoni" ? "page" : undefined}
+              className={`flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium transition hover:bg-[#0C342C] hover:text-[#E3EF26] ${
+                pathname === "/testimoni"
+                  ? "bg-[#0C342C] text-[#E3EF26]"
+                  : "text-[#FFFDEE]"
+              }`}
             >
               Testimoni
             </Link>

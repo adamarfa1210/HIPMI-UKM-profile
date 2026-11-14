@@ -39,6 +39,9 @@ export default function PrestasiPage() {
         secondaryCtaLabel="Jelajahi Arsip Prestasi"
         secondaryCtaHref="#direktori"
         showcaseLabel="HALL OF ACHIEVEMENT & RECOGNITION"
+        bannerImageSrc="/assets/05-prestasi/prestasi-04-rekognisi.jpg"
+        bannerImageAlt="Penyerahan piala penghargaan kader HIPMI PT Universitas Telkom di panggung rekognisi"
+        bannerFit="right"
       />
 
       <DirectoryFilterGrid

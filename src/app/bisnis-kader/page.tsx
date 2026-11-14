@@ -39,6 +39,9 @@ export default function BisnisKaderPage() {
         secondaryCtaLabel="Lihat Direktori Lengkap"
         secondaryCtaHref="#direktori"
         showcaseLabel="KADER ENTREPRENEUR SHOWCASE"
+        bannerImageSrc="/assets/01-hero-home/hero-slide-04.jpg"
+        bannerImageAlt="Showcase produk inovasi dan rintisan bisnis kreatif kader HIPMI PT Universitas Telkom"
+        bannerFit="full"
       />
 
       <DirectoryFilterGrid
