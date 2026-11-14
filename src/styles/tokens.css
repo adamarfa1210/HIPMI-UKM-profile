@@ -24,7 +24,7 @@
   --border-light: #E5E7EB;
 
   /* Typography */
-  --font-display: var(--font-montserrat), 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Motion & Easing */
