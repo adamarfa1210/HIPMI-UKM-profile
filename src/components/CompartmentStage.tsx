@@ -121,31 +121,30 @@ export function CompartmentStageCard({
       <div className="relative z-10 mx-auto flex min-h-[680px] w-full max-w-[1280px] flex-1 flex-col justify-between px-4 py-10 sm:px-6 lg:px-10">
         {/* Top Meta Strip */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#1E593B] bg-[#06231D]/85 px-4 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.06em] text-[#E3EF26] backdrop-blur-xs">
-            <span aria-hidden="true">●</span>
-            {compartment.code} &bull;{" "}
-            {isMixed
-              ? mode === "proker"
-                ? "PROGRAM KERJA"
-                : "JOBDESK"
-              : `SLIDE ${slideNum} / ${slideTotal}`}
+          <span className="inline-flex items-center gap-2.5 rounded-full border border-[#1E593B] bg-[#06231D]/85 px-4 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.06em] text-[#E3EF26] backdrop-blur-xs">
+            <span>{compartment.code}</span>
+            <span className="h-3 w-px bg-[#1E593B]" aria-hidden="true" />
+            <span>
+              {isMixed
+                ? mode === "proker"
+                  ? "PROGRAM KERJA"
+                  : "JOBDESK"
+                : `SLIDE ${slideNum} / ${slideTotal}`}
+            </span>
           </span>
 
           <span className="rounded-full border border-[#124236] bg-[#06231D]/80 px-4 py-1.5 text-[11px] font-medium text-[#C7DCD2] backdrop-blur-xs">
-            Pola Operasional: {compartment.patternLabel} &bull; {bidangName}
+            Pola Operasional: {compartment.patternLabel} ({bidangName})
           </span>
         </div>
 
         {/* Left Content Column */}
         <div className="my-10 max-w-xl">
           <div key={`copy-${slide.id}-${navSeq}`} className={enterAnimClass}>
-            <div className="mb-3 flex items-center gap-3">
-              <span className="h-[2px] w-7 bg-[#E3EF26]" aria-hidden="true" />
-              <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
-                {slide.kind === "proker" ? "PROGRAM KERJA" : "JOBDESK"} &bull;{" "}
-                {compartment.name.toUpperCase()}
-              </p>
-            </div>
+            <p className="mb-3 font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
+              {slide.kind === "proker" ? "PROGRAM KERJA" : "JOBDESK"}{" "}
+              {compartment.name.toUpperCase()}
+            </p>
 
             <h2 className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#FFFDEE] sm:text-[42px] lg:text-[48px]">
               {slide.title}
@@ -213,7 +212,7 @@ export function CompartmentStageCard({
               ))}
             </div>
             <span className="text-xs text-[#C7DCD2]">
-              {slideNum} / {slideTotal} &bull; {slide.title}
+              {slideNum} / {slideTotal}: {slide.title}
             </span>
           </div>
 

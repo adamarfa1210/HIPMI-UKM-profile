@@ -45,12 +45,9 @@ export default async function ProgramKerjaBidangPage({
       {/* Bidang Masthead (Kideco White Header + Sub-nav Bar) */}
       <section className="border-b border-[#E5E7EB] bg-white py-12 text-[#313238] md:py-14">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center gap-3">
-            <span className="h-[2px] w-7 bg-[#076653]" aria-hidden="true" />
-            <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
-              {currentBidang.eyebrow}
-            </p>
-          </div>
+          <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
+            {currentBidang.eyebrow}
+          </p>
 
           <h1 className="mt-3 font-display text-[34px] font-extrabold leading-tight tracking-[-0.02em] text-[#313238] sm:text-[44px]">
             {currentBidang.title}

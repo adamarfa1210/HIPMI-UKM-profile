@@ -58,20 +58,8 @@ export function KidecoStatsBand() {
   return (
     <section className="bg-white py-12 text-[#313238] md:py-16">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
-        <div className="relative overflow-hidden bg-[linear-gradient(90deg,#F7F7F9_0%,#ECEEEF_72%,#DFE2E6_100%)]">
-          {/* Iconic Kideco right-edge visual peek on large viewports */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-24 overflow-hidden lg:block xl:w-28">
-            <img
-              src="/assets/01-hero-home/hero-slide-03.jpg"
-              alt=""
-              width={240}
-              height={400}
-              className="h-full w-full object-cover object-center"
-              loading="lazy"
-            />
-          </div>
-
-          <div className="relative z-10 px-6 py-10 sm:px-10 md:py-12 lg:pr-36">
+        <div className="bg-[#F7F7F8]">
+          <div className="px-6 py-10 sm:px-10 md:py-12">
             <h2 className="max-w-2xl font-display text-[24px] font-extrabold leading-snug tracking-[-0.02em] text-[#313238] sm:text-[30px]">
               HIPMI PT Telkom: Wadah Kolaborasi Wirausaha Mahasiswa Terstruktur
             </h2>

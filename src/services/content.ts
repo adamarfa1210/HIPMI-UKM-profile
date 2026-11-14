@@ -300,15 +300,15 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
     slug: "okk",
     shortName: "OKK",
     title: "BIDANG OKK",
-    eyebrow: "PROGRAM KERJA • BIDANG OKK",
+    eyebrow: "PROGRAM KERJA BIDANG OKK",
     description:
       "Bidang Organisasi, Kaderisasi, dan Keanggotaan yang berfokus pada pengembangan kapasitas individu, sistem keorganisasian, serta kesejahteraan dan advokasi kader HIPMI PT Universitas Telkom.",
-    summaryStats: "2 Kompartemen • 2 Program Kerja & 2 Jobdesk",
-    compartmentSummary: "PSDM • ADKESKA",
+    summaryStats: "2 Kompartemen, 2 Program Kerja & 2 Jobdesk",
+    compartmentSummary: "PSDM, ADKESKA",
     compartments: [
       {
         id: "okk-psdm",
-        code: "KOMPARTEMEN 1 • PSDM",
+        code: "KOMPARTEMEN 1: PSDM",
         name: "Kompartemen PSDM",
         operationalPattern: "proker-only",
         patternLabel: "Hanya Program Kerja",
@@ -343,7 +343,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "okk-adkeska",
-        code: "KOMPARTEMEN 2 • ADKESKA",
+        code: "KOMPARTEMEN 2: ADKESKA",
         name: "Kompartemen ADKESKA",
         operationalPattern: "proker-jobdesk",
         patternLabel: "Program Kerja & Jobdesk",
@@ -394,15 +394,15 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
     slug: "medkominfo",
     shortName: "Medkominfo",
     title: "BIDANG MEDKOMINFO",
-    eyebrow: "PROGRAM KERJA • BIDANG MEDKOMINFO",
+    eyebrow: "PROGRAM KERJA BIDANG MEDKOMINFO",
     description:
       "Bidang Media Komunikasi dan Informasi yang mengelola strategi komunikasi visual, publikasi digital, serta branding organisasi HIPMI PT Universitas Telkom.",
-    summaryStats: "2 Kompartemen • 0 Program Kerja & 3 Jobdesk",
-    compartmentSummary: "Media Komunikasi • Media Kreatif",
+    summaryStats: "2 Kompartemen, 0 Program Kerja & 3 Jobdesk",
+    compartmentSummary: "Media Komunikasi, Media Kreatif",
     compartments: [
       {
         id: "medkom-komunikasi",
-        code: "KOMPARTEMEN 1 • MEDIA KOMUNIKASI",
+        code: "KOMPARTEMEN 1: MEDIA KOMUNIKASI",
         name: "Kompartemen Media Komunikasi",
         operationalPattern: "jobdesk-only",
         patternLabel: "Hanya Jobdesk",
@@ -424,7 +424,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "medkom-kreatif",
-        code: "KOMPARTEMEN 2 • MEDIA KREATIF",
+        code: "KOMPARTEMEN 2: MEDIA KREATIF",
         name: "Kompartemen Media Kreatif",
         operationalPattern: "jobdesk-only",
         patternLabel: "Hanya Jobdesk",
@@ -462,15 +462,15 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
     slug: "eksternal",
     shortName: "Eksternal",
     title: "BIDANG EKSTERNAL",
-    eyebrow: "PROGRAM KERJA • BIDANG EKSTERNAL",
+    eyebrow: "PROGRAM KERJA BIDANG EKSTERNAL",
     description:
       "Bidang Eksternal yang membangun relasi nasional, kemitraan industri strategis, serta kontribusi pengabdian masyarakat HIPMI PT Universitas Telkom.",
-    summaryStats: "3 Kompartemen • 3 Program Kerja & 3 Jobdesk",
-    compartmentSummary: "Relation • Partnership • Pengabdian Masyarakat",
+    summaryStats: "3 Kompartemen, 3 Program Kerja & 3 Jobdesk",
+    compartmentSummary: "Relation, Partnership, Pengabdian Masyarakat",
     compartments: [
       {
         id: "eksternal-relasi",
-        code: "KOMPARTEMEN 1 • RELASI (RELATION)",
+        code: "KOMPARTEMEN 1: RELASI (RELATION)",
         name: "Kompartemen Relasi",
         operationalPattern: "proker-jobdesk",
         patternLabel: "Program Kerja & Jobdesk",
@@ -505,7 +505,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "eksternal-partnership",
-        code: "KOMPARTEMEN 2 • PARTNERSHIP",
+        code: "KOMPARTEMEN 2: PARTNERSHIP",
         name: "Kompartemen Partnership",
         operationalPattern: "proker-jobdesk",
         patternLabel: "Program Kerja & Jobdesk",
@@ -541,7 +541,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "eksternal-pengmas",
-        code: "KOMPARTEMEN 3 • PENGABDIAN MASYARAKAT",
+        code: "KOMPARTEMEN 3: PENGABDIAN MASYARAKAT",
         name: "Kompartemen Pengabdian Masyarakat",
         operationalPattern: "proker-jobdesk",
         patternLabel: "Program Kerja & Jobdesk",
@@ -581,15 +581,15 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
     slug: "ekraf",
     shortName: "Ekraf",
     title: "BIDANG EKRAF",
-    eyebrow: "PROGRAM KERJA • BIDANG EKRAF",
+    eyebrow: "PROGRAM KERJA BIDANG EKRAF",
     description:
       "Bidang Ekonomi Kreatif yang membina unit bisnis organisasi, keikutsertaan kompetisi nasional, dan akselerasi usaha kader HIPMI PT Universitas Telkom.",
-    summaryStats: "3 Kompartemen • 3 Program Kerja & 2 Jobdesk",
-    compartmentSummary: "Kompetisi • BUMH • Pengembangan Bisnis",
+    summaryStats: "3 Kompartemen, 3 Program Kerja & 2 Jobdesk",
+    compartmentSummary: "Kompetisi, BUMH, Pengembangan Bisnis",
     compartments: [
       {
         id: "ekraf-kompetisi",
-        code: "KOMPARTEMEN 1 • KOMPETISI",
+        code: "KOMPARTEMEN 1: KOMPETISI",
         name: "Kompartemen Kompetisi",
         operationalPattern: "proker-jobdesk",
         patternLabel: "Program Kerja & Jobdesk",
@@ -624,7 +624,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "ekraf-bumh",
-        code: "KOMPARTEMEN 2 • BUMH",
+        code: "KOMPARTEMEN 2: BUMH",
         name: "Kompartemen BUMH",
         operationalPattern: "jobdesk-only",
         patternLabel: "Hanya Jobdesk",
@@ -646,7 +646,7 @@ export const BIDANG_PROGRAMS: Record<BidangSlug, BidangProgramPage> = {
       },
       {
         id: "ekraf-pengbis",
-        code: "KOMPARTEMEN 3 • PENGEMBANGAN BISNIS",
+        code: "KOMPARTEMEN 3: PENGEMBANGAN BISNIS",
         name: "Kompartemen Pengembangan Bisnis",
         operationalPattern: "proker-only",
         patternLabel: "Hanya Program Kerja",

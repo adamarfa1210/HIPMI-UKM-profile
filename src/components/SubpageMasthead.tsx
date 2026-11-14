@@ -65,12 +65,9 @@ export function SubpageMasthead({
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1280px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-10">
         <div className="lg:col-span-7">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="h-[2px] w-8 bg-[#E3EF26]" aria-hidden="true" />
-            <p className="font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
-              {eyebrow}
-            </p>
-          </div>
+          <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
+            {eyebrow}
+          </p>
           <h1 className="font-display text-[36px] font-extrabold leading-[1.08] tracking-[-0.02em] sm:text-[48px] lg:text-[54px]">
             {title}
           </h1>
