@@ -1,0 +1,65 @@
+import type { Metadata } from "next";
+import { SubpageMasthead } from "@/components/SubpageMasthead";
+import {
+  DirectoryFilterGrid,
+  type DirectoryCardItem,
+} from "@/components/DirectoryFilterGrid";
+import { SubpageBannerCta } from "@/components/SubpageBannerCta";
+import { PARTNER_ITEMS } from "@/services/content";
+
+export const metadata: Metadata = {
+  title: "Key Partnership | UKM HIPMI PT Universitas Telkom",
+  description:
+    "Direktori kemitraan strategis dan jejaring kolaborasi UKM HIPMI PT Universitas Telkom.",
+};
+
+export default function PartnershipPage() {
+  const cards: DirectoryCardItem[] = PARTNER_ITEMS.map((item) => ({
+    id: item.id,
+    category: item.category,
+    title: item.name,
+    description: item.scope,
+    metaPrimary: `Status: ${item.status}`,
+    metaSecondary: `Periode: ${item.period}`,
+    imageSrc: item.imageSrc,
+    imageAlt: item.imageAlt,
+    slotStatus: item.slotStatus,
+    fit: "contain",
+  }));
+
+  return (
+    <>
+      <SubpageMasthead
+        eyebrow="01 / KEY PARTNERSHIP"
+        title="KEY PARTNERSHIP"
+        description="Kolaborasi strategis antara UKM HIPMI PT Universitas Telkom bersama korporasi, asosiasi BPC dan BPD HIPMI, dinas/inkubator kewirausahaan, serta media partner (/api/partners)."
+        primaryCtaLabel="Ajukan Kolaborasi Mitra"
+        primaryCtaHref="#kontak-kolaborasi"
+        secondaryCtaLabel="Lihat Direktori Mitra"
+        secondaryCtaHref="#direktori"
+        showcaseLabel="STRATEGIC PARTNER SHOWCASE"
+      />
+
+      <DirectoryFilterGrid
+        sectionEyebrow="DIREKTORI KEMITRAAN"
+        sectionHeading="Jejaring Lembaga Mitra"
+        categories={[
+          "Korporasi & BUMN",
+          "Asosiasi & HIPMI",
+          "Dinas & Inkubator",
+          "Komunitas & Media",
+          "Mitra Strategis",
+        ]}
+        items={cards}
+      />
+
+      <SubpageBannerCta
+        eyebrow="02 / PELUANG KOLABORASI BARU"
+        heading="Ingin Bermitra dengan HIPMI PT Universitas Telkom?"
+        description="Terbuka untuk sponsorship program kerja, media partner, narasumber praktisi, serta kolaborasi inkubasi bisnis kader."
+        ctaLabel="Hubungi Tim Partnership"
+        ctaHref="/#tentang"
+      />
+    </>
+  );
+}

@@ -1,0 +1,31 @@
+:root {
+  /* Color Palette Final (ui-ux-hipmi-pt-telkom.figcraft) */
+  --bg-deep: #06231D;
+  --bg-divider: #041612;
+  --surface-dark: #0C342C;
+  --surface-elevated: #09352C;
+  --surface-emerald: #076653;
+
+  --bg-cream: #FFFDEE;
+  --tint-mint: #E2FBCE;
+  --surface-card: #FFFFFF;
+
+  --accent-lime: #E3EF26;
+
+  --text-cream: #FFFDEE;
+  --text-cream-muted: #C7DCD2;
+  --text-ink: #06231D;
+  --text-ink-muted: #2F4F46;
+
+  /* Borders & Hairlines */
+  --border-dark: #124236;
+  --border-dark-subtle: #1E593B;
+  --border-light: #D4E4DC;
+
+  /* Typography */
+  --font-display: var(--font-montserrat), 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Motion & Easing */
+  --ease-editorial: cubic-bezier(0.645, 0.075, 0.275, 0.995);
+}
