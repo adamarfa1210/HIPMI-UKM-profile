@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TestimonialFilterGrid } from "@/components/TestimonialFilterGrid";
 import { getTestimonials } from "@/services/api";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Testimoni | UKM HIPMI PT Universitas Telkom",

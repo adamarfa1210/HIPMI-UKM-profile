@@ -53,10 +53,10 @@ function resolveMediaUrl(src: string | null | undefined): string | null {
   return src;
 }
 
-async function fetchPublic<T>(path: string, tags: string[]): Promise<T | null> {
+async function fetchPublic<T>(path: string, _tags: string[]): Promise<T | null> {
   try {
     const res = await fetch(`${API_BASE}/api/public${path}`, {
-      next: { tags, revalidate: 60 },
+      cache: "no-store",
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return null;

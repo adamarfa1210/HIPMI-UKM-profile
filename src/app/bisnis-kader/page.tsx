@@ -7,7 +7,7 @@ import {
 import { SubpageBannerCta } from "@/components/SubpageBannerCta";
 import { getKaderBusinesses, getSiteConfig } from "@/services/api";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Bisnis Kader | UKM HIPMI PT Universitas Telkom",

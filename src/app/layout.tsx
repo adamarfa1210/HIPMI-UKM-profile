@@ -12,6 +12,8 @@ const inter = Inter({
   display: "swap",
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "UKM HIPMI PT Universitas Telkom | Profil Resmi & Program Kerja",
   description:

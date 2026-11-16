@@ -5,7 +5,7 @@ import { CompartmentStageCard } from "@/components/CompartmentStage";
 import { BIDANG_LIST, isValidBidang } from "@/services/content";
 import { getAllProgramKerja, getProgramKerjaByBidang } from "@/services/api";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return BIDANG_LIST.map((b) => ({ bidang: b.slug }));

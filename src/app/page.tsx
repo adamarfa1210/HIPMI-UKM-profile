@@ -16,7 +16,7 @@ import {
   getTestimonials,
 } from "@/services/api";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [home, partners, businesses, achievements, testimonials] =
