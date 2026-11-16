@@ -20,7 +20,7 @@ interface NavbarProps {
 
 export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
   const bidangItems: BidangSummary[] =
-    bidangs && bidangs.length > 0
+    bidangs !== undefined
       ? bidangs
       : BIDANG_LIST.map((b) => ({
           slug: b.slug,
@@ -28,7 +28,6 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
           title: b.title,
           compartmentSummary: b.compartmentSummary,
         }));
-  const activeAnnouncement = announcements[0] ?? null;
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -68,7 +67,7 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#124236] bg-[#06231D]/95 backdrop-blur-md">
-      {activeAnnouncement ? (
+      {announcements.length > 0 ? (
         <div className="border-b border-[#124236] bg-[#041612] px-4 py-2 text-xs text-[#FFFDEE]">
           <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 sm:px-2 lg:px-6">
             <div className="flex min-w-0 items-center gap-2.5">
@@ -76,12 +75,13 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
                 INFO TERKINI
               </span>
               <p className="truncate font-medium text-[#FFFDEE]">
-                <strong className="font-bold text-[#E3EF26]">
-                  {activeAnnouncement.title}
-                </strong>
-                {activeAnnouncement.content
-                  ? ` — ${activeAnnouncement.content}`
-                  : ""}
+                {announcements.map((ann, idx) => (
+                  <span key={ann.id}>
+                    {idx > 0 ? "  |  " : null}
+                    <strong className="font-bold text-[#E3EF26]">{ann.title}</strong>
+                    {ann.content ? ` — ${ann.content}` : ""}
+                  </span>
+                ))}
               </p>
             </div>
           </div>

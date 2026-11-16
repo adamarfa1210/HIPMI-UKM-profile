@@ -126,54 +126,53 @@ export async function getHomeData(): Promise<HomePageData> {
     };
   }
 
-  const heroSlides: HeroSlide[] =
-    Array.isArray(api.heroSlides) && api.heroSlides.length > 0
-      ? api.heroSlides.map((s: any, i: number) => ({
-          id: s.id,
-          indexLabel:
-            s.indexLabel ||
-            `${String(i + 1).padStart(2, "0")} / ${String(api.heroSlides.length).padStart(2, "0")}`,
-          title: s.title,
-          subtitle: s.subtitle,
-          imageSrc:
-            resolveMediaUrl(s.imageSrc) ||
-            "/assets/01-hero-home/hero-slide-01.jpg",
-          imageAlt: s.imageAlt || s.title,
-        }))
-      : HERO_SLIDES;
+  const heroSlides: HeroSlide[] = Array.isArray(api.heroSlides)
+    ? api.heroSlides.map((s: any, i: number) => ({
+        id: s.id,
+        indexLabel:
+          s.indexLabel ||
+          `${String(i + 1).padStart(2, "0")} / ${String(api.heroSlides.length).padStart(2, "0")}`,
+        title: s.title,
+        subtitle: s.subtitle,
+        imageSrc: resolveMediaUrl(s.imageSrc),
+        imageAlt: s.imageAlt || s.title,
+      }))
+    : [];
 
   const companyVideo: CompanyVideo = api.tentang
     ? {
-        eyebrow: api.tentang.eyebrow || COMPANY_VIDEO.eyebrow,
-        title: api.tentang.title || COMPANY_VIDEO.title,
-        description: api.tentang.description || COMPANY_VIDEO.description,
+        eyebrow: api.tentang.eyebrow ?? "",
+        title: api.tentang.title ?? "",
+        description: api.tentang.description ?? "",
         secondaryDescription: api.tentang.secondaryDescription ?? null,
-        posterSrc:
-          resolveMediaUrl(api.tentang.videoPosterSrc) ||
-          COMPANY_VIDEO.posterSrc,
+        posterSrc: resolveMediaUrl(api.tentang.videoPosterSrc),
         posterAlt: COMPANY_VIDEO.posterAlt,
         videoUrl: resolveMediaUrl(api.tentang.videoUrl) ?? null,
       }
-    : COMPANY_VIDEO;
+    : {
+        eyebrow: "",
+        title: "",
+        description: "",
+        secondaryDescription: null,
+        posterSrc: null,
+        posterAlt: COMPANY_VIDEO.posterAlt,
+        videoUrl: null,
+      };
 
-  const pillars: TentangPillarItem[] =
-    Array.isArray(api.tentang?.pillars) && api.tentang.pillars.length > 0
-      ? api.tentang.pillars.map((p: any) => ({
-          id: p.id,
-          title: p.title,
-          description: p.description,
-        }))
-      : TENTANG_PILLARS.map((p) => ({ ...p }));
+  const pillars: TentangPillarItem[] = Array.isArray(api.tentang?.pillars)
+    ? api.tentang.pillars.map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+      }))
+    : [];
 
   return {
     heroSlides,
     companyVideo,
     pillars,
     stats: api.stats || defaultStats,
-    bidangs:
-      Array.isArray(api.bidangs) && api.bidangs.length > 0
-        ? api.bidangs
-        : defaultBidangs,
+    bidangs: Array.isArray(api.bidangs) ? api.bidangs : [],
     announcements: Array.isArray(api.announcements) ? api.announcements : [],
     siteConfig: {
       ...DEFAULT_SITE_CONFIG,
@@ -186,19 +185,20 @@ export async function getPartners(): Promise<PartnerItem[]> {
   const api = await fetchPublic<any[]>("/partners", ["partners"]);
   if (!api) return PARTNER_ITEMS;
 
-  return api.map((p) => ({
-    id: p.id,
-    name: p.name,
-    category: p.category,
-    scope: p.scope,
-    period: p.period,
-    status: p.status,
-    imageSrc:
-      resolveMediaUrl(p.imageSrc) ||
-      "/assets/03-partnership/mitra-01-korporasi-bumn.jpg",
-    imageAlt: p.imageAlt || p.name,
-    slotStatus: p.slotStatus || "ready",
-  }));
+  return api.map((p) => {
+    const resolvedSrc = resolveMediaUrl(p.imageSrc);
+    return {
+      id: p.id,
+      name: p.name,
+      category: p.category,
+      scope: p.scope,
+      period: p.period,
+      status: p.status,
+      imageSrc: resolvedSrc,
+      imageAlt: p.imageAlt || p.name,
+      slotStatus: resolvedSrc ? p.slotStatus || "ready" : "pending-asset",
+    };
+  });
 }
 
 export async function getKaderBusinesses(): Promise<KaderBusiness[]> {
@@ -212,8 +212,8 @@ export async function getKaderBusinesses(): Promise<KaderBusiness[]> {
       businessName: b.businessName,
       sector: b.sector,
       description: b.description,
-      ownerLabel: b.ownerLabel || b.ownerName || "Kader HIPMI PT Telkom",
-      verifiedLabel: b.verifiedLabel || "Terverifikasi Pengurus",
+      ownerLabel: b.ownerLabel ?? b.ownerName ?? "",
+      verifiedLabel: b.verifiedLabel ?? "",
       imageSrc: resolvedSrc,
       imageAlt: b.imageAlt || b.businessName,
       pendingLabel: b.pendingLabel,
@@ -284,7 +284,7 @@ function mapBidangProgram(raw: any): BidangProgramPage {
 
 export async function getAllProgramKerja(): Promise<BidangProgramPage[]> {
   const api = await fetchPublic<any[]>("/program-kerja", ["programs"]);
-  if (!api || api.length === 0) return BIDANG_LIST;
+  if (!api) return BIDANG_LIST;
   return api.map(mapBidangProgram);
 }
 

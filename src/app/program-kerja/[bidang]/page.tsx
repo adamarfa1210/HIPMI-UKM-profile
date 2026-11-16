@@ -92,13 +92,23 @@ export default async function ProgramKerjaBidangPage({
       </section>
 
       {/* Hero-Style Compartments Stack (seamless without dark separator bars) */}
-      {currentBidang.compartments.map((compartment) => (
-        <CompartmentStageCard
-          key={compartment.id}
-          bidangName={currentBidang.title}
-          compartment={compartment}
-        />
-      ))}
+      {currentBidang.compartments.length === 0 ? (
+        <section className="bg-[#06231D] py-16 text-center text-[#C7DCD2]">
+          <div className="mx-auto max-w-[1200px] px-4">
+            <p className="text-sm">
+              Belum ada kompartemen atau slide program kerja pada bidang ini.
+            </p>
+          </div>
+        </section>
+      ) : (
+        currentBidang.compartments.map((compartment) => (
+          <CompartmentStageCard
+            key={compartment.id}
+            bidangName={currentBidang.title}
+            compartment={compartment}
+          />
+        ))
+      )}
     </>
   );
 }

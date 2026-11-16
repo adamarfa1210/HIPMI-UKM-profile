@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { HERO_SLIDES } from "@/services/content";
 import type { CompanyVideo, HeroSlide } from "@/types/content";
 import { VideoModal } from "@/components/VideoModal";
 
@@ -12,10 +11,10 @@ interface HeroSliderProps {
 }
 
 export function HeroSlider({
-  slides = HERO_SLIDES,
+  slides = [],
   companyVideo,
 }: HeroSliderProps) {
-  const activeSlides = slides.length > 0 ? slides : HERO_SLIDES;
+  const activeSlides = slides;
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -28,12 +27,30 @@ export function HeroSlider({
   }, []);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || activeSlides.length <= 1) return;
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % activeSlides.length);
     }, 5000);
     return () => window.clearInterval(timer);
   }, [paused, activeSlides.length]);
+
+  if (activeSlides.length === 0) {
+    return (
+      <section
+        aria-label="Hero Banner HIPMI PT Universitas Telkom"
+        className="relative flex min-h-[260px] w-full flex-col justify-center overflow-hidden bg-[#06231D] py-16 text-center text-[#FFFDEE]"
+      >
+        <div className="mx-auto max-w-xl px-4">
+          <p className="font-display text-xs font-bold uppercase tracking-[0.14em] text-[#E3EF26]">
+            HERO SLIDER KOSONG
+          </p>
+          <p className="mt-2 text-sm text-[#C7DCD2]">
+            Belum ada hero slide yang dipublikasikan di CMS.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   const safeIdx = activeIndex % activeSlides.length;
   const currentSlide = activeSlides[safeIdx];
@@ -52,14 +69,18 @@ export function HeroSlider({
             idx === safeIdx ? "opacity-100" : "opacity-0"
           }`}
         >
-          <img
-            src={slide.imageSrc}
-            alt={slide.imageAlt}
-            width={1440}
-            height={680}
-            className="h-full w-full object-cover object-center"
-            loading={idx === 0 ? "eager" : "lazy"}
-          />
+          {slide.imageSrc ? (
+            <img
+              src={slide.imageSrc}
+              alt={slide.imageAlt || slide.title}
+              width={1440}
+              height={680}
+              className="h-full w-full object-cover object-center"
+              loading={idx === 0 ? "eager" : "lazy"}
+            />
+          ) : (
+            <div className="h-full w-full bg-gradient-to-br from-[#06231D] via-[#09352C] to-[#076653]/40" />
+          )}
         </div>
       ))}
 

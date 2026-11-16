@@ -5,36 +5,15 @@ import { useState } from "react";
 import {
   BIDANG_LIST,
   BIDANG_PROGRAMS,
-  KADER_BUSINESSES,
   PARTNER_ITEMS,
 } from "@/services/content";
 import type {
-  BidangSlug,
   BidangSummary,
   HomeStats,
   KaderBusiness,
 } from "@/types/content";
 import { CarouselHeader } from "@/components/CarouselHeader";
 import { MediaSlot } from "@/components/MediaSlot";
-
-const BIDANG_TILE_MEDIA: Record<BidangSlug, { imageSrc: string; imageAlt: string }> = {
-  okk: {
-    imageSrc: "/assets/01-hero-home/hero-slide-02.jpg",
-    imageAlt: "Pembinaan organisasi dan kepemimpinan kader HIPMI PT Universitas Telkom",
-  },
-  medkominfo: {
-    imageSrc: "/assets/01-hero-home/hero-slide-01.jpg",
-    imageAlt: "Kolaborasi tim media dan komunikasi kreatif HIPMI PT Universitas Telkom",
-  },
-  eksternal: {
-    imageSrc: "/assets/01-hero-home/hero-slide-05.jpg",
-    imageAlt: "Jejaring kemitraan eksternal dan kunjungan perusahaan kader HIPMI PT",
-  },
-  ekraf: {
-    imageSrc: "/assets/01-hero-home/hero-slide-04.jpg",
-    imageAlt: "Showcase ekonomi kreatif dan kompetisi bisnis kader Universitas Telkom",
-  },
-};
 
 /** Kideco-inspired structural highlight strip showing real, non-fabricated entity counts. */
 export function KidecoStatsBand({ stats }: { stats?: HomeStats }) {
@@ -103,17 +82,9 @@ export function KidecoStatsBand({ stats }: { stats?: HomeStats }) {
   );
 }
 
-/** Kideco "Integrasi Strategi" centered photography tiles linking to the 4 Bidang routes. */
-export function HomeBidangTiles({ bidangs }: { bidangs?: BidangSummary[] }) {
-  const list: BidangSummary[] =
-    bidangs && bidangs.length > 0
-      ? bidangs
-      : BIDANG_LIST.map((b) => ({
-          slug: b.slug,
-          shortName: b.shortName,
-          title: b.title,
-          compartmentSummary: b.compartmentSummary,
-        }));
+/** Kideco "Integrasi Strategi" typography tiles linking to the 4 Bidang routes. */
+export function HomeBidangTiles({ bidangs = [] }: { bidangs?: BidangSummary[] }) {
+  const list: BidangSummary[] = bidangs;
   return (
     <section
       id="program-kerja"
@@ -133,26 +104,25 @@ export function HomeBidangTiles({ bidangs }: { bidangs?: BidangSummary[] }) {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {list.map((bidang) => {
-            const tile = BIDANG_TILE_MEDIA[bidang.slug] ?? BIDANG_TILE_MEDIA.okk;
-            return (
+        {list.length === 0 ? (
+          <p className="mt-10 rounded-[6px] border border-[#E5E7EB] bg-[#F7F7F8] p-6 text-center text-sm text-[#5E636B]">
+            Belum ada bidang program kerja yang dipublikasikan.
+          </p>
+        ) : (
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {list.map((bidang) => (
               <Link
                 key={bidang.slug}
                 href={`/program-kerja/${bidang.slug}`}
-                className="group relative block aspect-[4/5] overflow-hidden bg-[#06231D]"
+                className="group relative block aspect-[4/5] overflow-hidden bg-gradient-to-br from-[#06231D] via-[#09352C] to-[#076653]/65"
               >
-                <img
-                  src={tile.imageSrc}
-                  alt={tile.imageAlt}
-                  width={480}
-                  height={600}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  loading="lazy"
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-[#E3EF26]/10 blur-2xl transition duration-500 group-hover:scale-125"
                 />
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,rgba(6,35,29,0.9)_100%)]"
+                  className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(6,35,29,0.92)_100%)]"
                 />
                 <div className="absolute inset-x-0 bottom-0 p-6">
                   <p className="font-display text-[11px] font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
@@ -166,22 +136,28 @@ export function HomeBidangTiles({ bidangs }: { bidangs?: BidangSummary[] }) {
                   </p>
                 </div>
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
 /** Kideco "Berita Terbaru" muted grey 3-column carousel section showcasing Bisnis Kader. */
-export function HomeBusinessCarousel({ items = KADER_BUSINESSES }: { items?: KaderBusiness[] }) {
-  const activeItems = items.length > 0 ? items : KADER_BUSINESSES;
+export function HomeBusinessCarousel({ items = [] }: { items?: KaderBusiness[] }) {
+  const activeItems = items;
   const [index, setIndex] = useState(0);
   const total = activeItems.length;
 
-  const goPrev = () => setIndex((prev) => (prev - 1 + total) % total);
-  const goNext = () => setIndex((prev) => (prev + 1) % total);
+  const goPrev = () => {
+    if (total === 0) return;
+    setIndex((prev) => (prev - 1 + total) % total);
+  };
+  const goNext = () => {
+    if (total === 0) return;
+    setIndex((prev) => (prev + 1) % total);
+  };
 
   const visibleCount = Math.min(3, total);
   const visibleItems = Array.from({ length: visibleCount }, (_, offset) => activeItems[(index + offset) % total]);
@@ -202,46 +178,52 @@ export function HomeBusinessCarousel({ items = KADER_BUSINESSES }: { items?: Kad
           moreHref="/bisnis-kader"
         />
 
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          {visibleItems.map((biz) => (
-            <article key={biz.id} className="group flex flex-col">
-              <Link
-                href="/bisnis-kader"
-                className="block aspect-[16/10] w-full overflow-hidden bg-[#06231D]"
-              >
-                <MediaSlot
-                  imageSrc={biz.imageSrc}
-                  imageAlt={biz.imageAlt}
-                  slotStatus={biz.slotStatus}
-                  slotLabel={biz.pendingLabel}
-                  width={480}
-                  height={300}
-                />
-              </Link>
-
-              <p className="mt-4 text-xs font-medium text-[#7A7F87]">
-                {biz.sector} &bull; {biz.ownerLabel}
-              </p>
-
-              <h3 className="mt-1.5 font-display text-base font-extrabold leading-snug text-[#313238] transition group-hover:text-[#076653]">
-                <Link href="/bisnis-kader">{biz.businessName}</Link>
-              </h3>
-
-              <p className="mt-2 line-clamp-2 text-xs leading-[1.7] text-[#5E636B]">
-                {biz.description}
-              </p>
-
-              <div className="mt-4">
+        {visibleItems.length === 0 ? (
+          <p className="mt-10 rounded-[6px] border border-[#E5E7EB] bg-white p-6 text-center text-sm text-[#5E636B]">
+            Belum ada bisnis kader yang dipublikasikan.
+          </p>
+        ) : (
+          <div className="mt-10 grid gap-8 md:grid-cols-3">
+            {visibleItems.map((biz) => (
+              <article key={biz.id} className="group flex flex-col">
                 <Link
                   href="/bisnis-kader"
-                  className="text-xs font-semibold text-[#5E636B] transition hover:text-[#076653] hover:underline"
+                  className="block aspect-[16/10] w-full overflow-hidden bg-[#06231D]"
                 >
-                  Selengkapnya
+                  <MediaSlot
+                    imageSrc={biz.imageSrc}
+                    imageAlt={biz.imageAlt}
+                    slotStatus={biz.slotStatus}
+                    slotLabel={biz.pendingLabel}
+                    width={480}
+                    height={300}
+                  />
                 </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+
+                <p className="mt-4 text-xs font-medium text-[#7A7F87]">
+                  {biz.sector} &bull; {biz.ownerLabel}
+                </p>
+
+                <h3 className="mt-1.5 font-display text-base font-extrabold leading-snug text-[#313238] transition group-hover:text-[#076653]">
+                  <Link href="/bisnis-kader">{biz.businessName}</Link>
+                </h3>
+
+                <p className="mt-2 line-clamp-2 text-xs leading-[1.7] text-[#5E636B]">
+                  {biz.description}
+                </p>
+
+                <div className="mt-4">
+                  <Link
+                    href="/bisnis-kader"
+                    className="text-xs font-semibold text-[#5E636B] transition hover:text-[#076653] hover:underline"
+                  >
+                    Selengkapnya
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

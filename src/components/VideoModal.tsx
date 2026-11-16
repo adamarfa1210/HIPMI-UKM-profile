@@ -1,22 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { COMPANY_VIDEO } from "@/services/content";
 
 interface VideoModalProps {
   open: boolean;
   onClose: () => void;
-  posterSrc?: string;
-  posterAlt?: string;
+  posterSrc?: string | null;
+  posterAlt?: string | null;
   videoUrl?: string | null;
 }
 
 export function VideoModal({
   open,
   onClose,
-  posterSrc = COMPANY_VIDEO.posterSrc,
-  posterAlt = COMPANY_VIDEO.posterAlt,
-  videoUrl = COMPANY_VIDEO.videoUrl,
+  posterSrc = null,
+  posterAlt = "Poster Video Profil UKM HIPMI PT Universitas Telkom",
+  videoUrl = null,
 }: VideoModalProps) {
   useEffect(() => {
     if (!open) return;
@@ -63,7 +62,7 @@ export function VideoModal({
             <video
               controls
               preload="none"
-              poster={posterSrc}
+              poster={posterSrc || undefined}
               className="h-full w-full object-cover"
             >
               <source src={videoUrl} type="video/mp4" />
@@ -71,13 +70,15 @@ export function VideoModal({
             </video>
           ) : (
             <div className="relative flex h-full w-full items-center justify-center">
-              <img
-                src={posterSrc}
-                alt={posterAlt}
-                width={1280}
-                height={720}
-                className="h-full w-full object-cover opacity-55"
-              />
+              {posterSrc ? (
+                <img
+                  src={posterSrc}
+                  alt={posterAlt || "Poster Video Profil UKM HIPMI PT Universitas Telkom"}
+                  width={1280}
+                  height={720}
+                  className="h-full w-full object-cover opacity-55"
+                />
+              ) : null}
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#06231D]/70 p-6 text-center">
                 <span className="mb-3 rounded-full border border-[#E3EF26]/60 bg-[#06231D] px-4 py-1.5 font-display text-xs font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
                   Siap Integrasi Storage Fase 2 (preload=&quot;none&quot;)

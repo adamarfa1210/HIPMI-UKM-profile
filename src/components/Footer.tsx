@@ -75,9 +75,11 @@ export function Footer({
             <h2 className="font-display text-xs font-bold text-[#313238]">
               Sekretariat Kampus
             </h2>
-            <p className="mt-3 text-xs leading-[1.8] text-[#5E636B]">
-              {siteConfig.secretariatAddress}
-            </p>
+            {siteConfig.secretariatAddress ? (
+              <p className="mt-3 text-xs leading-[1.8] text-[#5E636B]">
+                {siteConfig.secretariatAddress}
+              </p>
+            ) : null}
           </div>
 
           <div className="md:col-span-3">
@@ -85,22 +87,26 @@ export function Footer({
               Kontak Resmi
             </h2>
             <ul className="mt-3 space-y-2 text-xs text-[#5E636B]">
-              <li>{siteConfig.officialEmail}</li>
-              <li>Instagram: {siteConfig.officialInstagram}</li>
-              <li>
-                {siteConfig.whatsappContactUrl ? (
-                  <a
-                    href={siteConfig.whatsappContactUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition hover:text-[#076653] hover:underline"
-                  >
-                    {siteConfig.whatsappContactLabel}
-                  </a>
-                ) : (
-                  siteConfig.whatsappContactLabel
-                )}
-              </li>
+              {siteConfig.officialEmail ? <li>{siteConfig.officialEmail}</li> : null}
+              {siteConfig.officialInstagram ? (
+                <li>Instagram: {siteConfig.officialInstagram}</li>
+              ) : null}
+              {siteConfig.whatsappContactLabel ? (
+                <li>
+                  {siteConfig.whatsappContactUrl ? (
+                    <a
+                      href={siteConfig.whatsappContactUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="transition hover:text-[#076653] hover:underline"
+                    >
+                      {siteConfig.whatsappContactLabel}
+                    </a>
+                  ) : (
+                    siteConfig.whatsappContactLabel
+                  )}
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>

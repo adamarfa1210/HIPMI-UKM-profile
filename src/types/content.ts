@@ -5,8 +5,8 @@ export interface HeroSlide {
   indexLabel: string;
   title: string;
   subtitle: string;
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc: string | null;
+  imageAlt: string | null;
 }
 
 export interface CompanyVideo {
@@ -14,8 +14,8 @@ export interface CompanyVideo {
   title: string;
   description: string;
   secondaryDescription?: string | null;
-  posterSrc: string;
-  posterAlt: string;
+  posterSrc: string | null;
+  posterAlt: string | null;
   videoUrl: string | null;
 }
 
@@ -73,7 +73,7 @@ export interface PartnerItem {
   scope: string;
   period: string;
   status: string;
-  imageSrc: string;
+  imageSrc: string | null;
   imageAlt: string;
   slotStatus: SlotStatus;
 }

@@ -54,8 +54,13 @@ export function TestimonialFilterGrid({
         </div>
 
         {/* 3-Column Clean Editorial Quote Grid */}
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          {visible.map((item) => (
+        {visible.length === 0 ? (
+          <p className="mt-10 rounded-[6px] border border-[#E5E7EB] bg-[#F7F7F8] p-8 text-center text-sm text-[#5E636B]">
+            Belum ada testimoni terverifikasi yang dipublikasikan.
+          </p>
+        ) : (
+          <div className="mt-10 grid gap-8 md:grid-cols-3">
+            {visible.map((item) => (
             <article
               key={item.id}
               className="flex flex-col justify-between border border-[#E5E7EB] bg-white p-6"
@@ -85,7 +90,8 @@ export function TestimonialFilterGrid({
               </div>
             </article>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

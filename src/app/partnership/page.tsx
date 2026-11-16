@@ -45,9 +45,6 @@ export default async function PartnershipPage() {
         secondaryCtaLabel="Lihat Direktori Mitra"
         secondaryCtaHref="#direktori"
         showcaseLabel="STRATEGIC PARTNER SHOWCASE"
-        bannerImageSrc="/assets/01-hero-home/hero-slide-05.jpg"
-        bannerImageAlt="Delegasi mahasiswa HIPMI PT Universitas Telkom bersalaman dan berdiskusi dengan mitra korporasi"
-        bannerFit="full"
       />
 
       <DirectoryFilterGrid

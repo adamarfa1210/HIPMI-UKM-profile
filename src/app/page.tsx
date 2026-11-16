@@ -64,26 +64,32 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-8 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
-            {testimonials.slice(0, 2).map((item, idx) => (
-              <article
-                key={item.id}
-                className={`flex flex-col justify-between ${
-                  idx === 0 ? "md:pr-10" : "md:pl-10"
-                }`}
-              >
-                <p className="text-[15px] leading-[1.75] text-[#313238]">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-                <p className="mt-5 font-display text-xs font-bold text-[#076653]">
-                  {item.authorLabel} &bull;{" "}
-                  <span className="font-normal text-[#5E636B]">
-                    {item.roleOrOrg}
-                  </span>
-                </p>
-              </article>
-            ))}
-          </div>
+          {testimonials.length === 0 ? (
+            <p className="mt-10 rounded-[6px] border border-[#E5E7EB] bg-[#F7F7F8] p-6 text-center text-sm text-[#5E636B]">
+              Belum ada testimoni terverifikasi yang dipublikasikan.
+            </p>
+          ) : (
+            <div className="mt-10 grid gap-8 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
+              {testimonials.slice(0, 2).map((item, idx) => (
+                <article
+                  key={item.id}
+                  className={`flex flex-col justify-between ${
+                    idx === 0 ? "md:pr-10" : "md:pl-10"
+                  }`}
+                >
+                  <p className="text-[15px] leading-[1.75] text-[#313238]">
+                    &ldquo;{item.quote}&rdquo;
+                  </p>
+                  <p className="mt-5 font-display text-xs font-bold text-[#076653]">
+                    {item.authorLabel} &bull;{" "}
+                    <span className="font-normal text-[#5E636B]">
+                      {item.roleOrOrg}
+                    </span>
+                  </p>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>

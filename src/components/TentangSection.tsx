@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { COMPANY_VIDEO, TENTANG_PILLARS } from "@/services/content";
 import type { CompanyVideo, TentangPillarItem } from "@/types/content";
 import { VideoModal } from "@/components/VideoModal";
 
@@ -14,10 +13,38 @@ interface TentangSectionProps {
 }
 
 export function TentangSection({
-  companyVideo = COMPANY_VIDEO,
-  pillars = TENTANG_PILLARS.map((p) => ({ ...p })),
+  companyVideo = {
+    eyebrow: "",
+    title: "",
+    description: "",
+    secondaryDescription: null,
+    posterSrc: null,
+    posterAlt: null,
+    videoUrl: null,
+  },
+  pillars = [],
 }: TentangSectionProps) {
   const [videoOpen, setVideoOpen] = useState(false);
+  const hasContent = Boolean(
+    companyVideo.eyebrow ||
+      companyVideo.title ||
+      companyVideo.description ||
+      companyVideo.secondaryDescription ||
+      pillars.length > 0
+  );
+
+  if (!hasContent) {
+    return (
+      <section
+        id="tentang"
+        className="bg-white py-12 text-center text-[#5E636B] md:py-16"
+      >
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-10">
+          <p className="text-sm">Konten Tentang &amp; Pilar belum dipublikasikan.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -28,22 +55,29 @@ export function TentangSection({
         {/* Kideco Style Asymmetric 2-Column Intro */}
         <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
-              {companyVideo.eyebrow || "TENTANG HIPMI PT"}
-            </p>
-            <h2 className="mt-3 font-display text-[30px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#313238] sm:text-[38px]">
-              {companyVideo.title}
-            </h2>
+            {companyVideo.eyebrow ? (
+              <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
+                {companyVideo.eyebrow}
+              </p>
+            ) : null}
+            {companyVideo.title ? (
+              <h2 className="mt-3 font-display text-[30px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#313238] sm:text-[38px]">
+                {companyVideo.title}
+              </h2>
+            ) : null}
           </div>
 
           <div className="space-y-4 lg:col-span-6 lg:col-start-7">
-            <p className="text-[15px] leading-[1.75] text-[#5E636B]">
-              {companyVideo.description}
-            </p>
-            <p className="text-[15px] leading-[1.75] text-[#5E636B]">
-              {companyVideo.secondaryDescription ||
-                "Melalui sinergi pembinaan bisnis mahasiswa, jejaring alumni HIPMI nasional, dan kolaborasi mitra industri, setiap kader ditempa untuk siap membangun usaha berdaya saing tinggi."}
-            </p>
+            {companyVideo.description ? (
+              <p className="text-[15px] leading-[1.75] text-[#5E636B]">
+                {companyVideo.description}
+              </p>
+            ) : null}
+            {companyVideo.secondaryDescription ? (
+              <p className="text-[15px] leading-[1.75] text-[#5E636B]">
+                {companyVideo.secondaryDescription}
+              </p>
+            ) : null}
             <div className="pt-1">
               <Link
                 href="/partnership"
@@ -64,14 +98,22 @@ export function TentangSection({
             aria-label="Putar video company profile UKM HIPMI PT Universitas Telkom"
             className="group relative block aspect-video w-full cursor-pointer overflow-hidden bg-[#06231D] text-left shadow-sm"
           >
-            <img
-              src={companyVideo.posterSrc}
-              alt={companyVideo.posterAlt}
-              width={1280}
-              height={720}
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-              loading="lazy"
-            />
+            {companyVideo.posterSrc ? (
+              <img
+                src={companyVideo.posterSrc}
+                alt={companyVideo.posterAlt || companyVideo.title || "Poster Video Profil"}
+                width={1280}
+                height={720}
+                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#06231D] via-[#09352C] to-[#076653]/45">
+                <span className="mt-24 rounded-full border border-[#E3EF26]/40 bg-[#06231D]/85 px-3 py-1 font-display text-[11px] font-bold uppercase tracking-[0.08em] text-[#E3EF26]">
+                  Video Profil Organisasi
+                </span>
+              </div>
+            )}
             <div
               aria-hidden="true"
               className="absolute inset-0 bg-[#06231D]/25 transition group-hover:bg-[#06231D]/35"
@@ -95,31 +137,33 @@ export function TentangSection({
         </div>
 
         {/* 3 Pillars Row with Crisp Hairline Dividers (No Boxy Card Borders) */}
-        <div className="mt-16 grid gap-10 border-t border-[#ECEEEF] pt-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
-          {pillars.map((pillar, idx) => {
-            const cleanTitle = pillar.title.replace(/^\d+\s*•\s*/, "");
-            return (
-              <div
-                key={pillar.id}
-                className="flex flex-col items-center px-4 text-center md:px-8"
-              >
-                <h3 className="font-display text-[22px] font-extrabold leading-snug text-[#313238]">
-                  {cleanTitle}
-                </h3>
-                <p className="mt-3 max-w-[300px] text-sm leading-[1.7] text-[#5E636B]">
-                  {pillar.description}
-                </p>
-                <Link
-                  href={PILLAR_LINKS[idx] ?? "/program-kerja/okk"}
-                  className="mt-5 inline-flex min-h-[36px] items-center gap-1.5 text-[13px] font-medium text-[#5E636B] transition hover:text-[#076653]"
+        {pillars.length > 0 ? (
+          <div className="mt-16 grid gap-10 border-t border-[#ECEEEF] pt-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
+            {pillars.map((pillar, idx) => {
+              const cleanTitle = pillar.title.replace(/^\d+\s*•\s*/, "");
+              return (
+                <div
+                  key={pillar.id}
+                  className="flex flex-col items-center px-4 text-center md:px-8"
                 >
-                  <span>Lebih Lanjut</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </Link>
-              </div>
-            );
-          })}
-        </div>
+                  <h3 className="font-display text-[22px] font-extrabold leading-snug text-[#313238]">
+                    {cleanTitle}
+                  </h3>
+                  <p className="mt-3 max-w-[300px] text-sm leading-[1.7] text-[#5E636B]">
+                    {pillar.description}
+                  </p>
+                  <Link
+                    href={PILLAR_LINKS[idx] ?? "/program-kerja/okk"}
+                    className="mt-5 inline-flex min-h-[36px] items-center gap-1.5 text-[13px] font-medium text-[#5E636B] transition hover:text-[#076653]"
+                  >
+                    <span>Lebih Lanjut</span>
+                    <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
 
       <VideoModal

@@ -29,8 +29,14 @@ export async function POST(request: Request) {
     }
   }
 
-  // Ensure layout and dynamic routes refresh cleanly on Next.js ISR
+  // Ensure layout and all dynamic/static routes refresh cleanly on Next.js ISR
   revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/partnership");
+  revalidatePath("/bisnis-kader");
+  revalidatePath("/prestasi");
+  revalidatePath("/testimoni");
+  revalidatePath("/program-kerja/[bidang]", "page");
 
   return NextResponse.json({
     success: true,

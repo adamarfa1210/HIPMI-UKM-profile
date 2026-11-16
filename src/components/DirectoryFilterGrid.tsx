@@ -82,8 +82,13 @@ export function DirectoryFilterGrid({
         </div>
 
         {/* 3up Editorial 1:1 Directory Cards (Kideco White Minimal Grid) */}
-        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {visibleItems.map((item) => (
+        {visibleItems.length === 0 ? (
+          <p className="mt-10 rounded-[6px] border border-[#E5E7EB] bg-[#F7F7F8] p-8 text-center text-sm text-[#5E636B]">
+            Belum ada data yang dipublikasikan pada kategori ini.
+          </p>
+        ) : (
+          <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {visibleItems.map((item) => (
             <article
               key={item.id}
               className="flex flex-col overflow-hidden border border-[#E5E7EB] bg-white transition hover:border-[#076653]/45"
@@ -122,7 +127,8 @@ export function DirectoryFilterGrid({
               </div>
             </article>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
