@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { TESTIMONIALS } from "@/services/content";
 import type { TestimonialItem } from "@/types/content";
 
 const FILTERS = ["Semua", "Kader & Alumni", "Mitra Kolaborasi"] as const;
 
 export function TestimonialFilterGrid({
-  items = TESTIMONIALS,
+  items = [],
 }: {
   items?: TestimonialItem[];
 }) {

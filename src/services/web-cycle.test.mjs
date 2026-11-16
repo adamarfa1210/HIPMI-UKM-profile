@@ -327,7 +327,11 @@ test("Web UKM Profile renders no photos, clears completely on empty CMS, restore
     assert.ok(homeEmpty.includes("Konten Tentang &amp; Pilar belum dipublikasikan"));
 
     const prokerEmpty = await fetchText("/program-kerja/okk");
+    assert.ok(prokerEmpty.includes("Konten Bidang Belum Dipublikasikan"));
+    assert.ok(prokerEmpty.includes("Belum ada bidang program kerja yang aktif."));
     assert.ok(prokerEmpty.includes("Belum ada kompartemen atau slide program kerja pada bidang ini."));
+    assert.ok(homeEmpty.includes("Alamat sekretariat belum diatur."));
+    assert.ok(homeEmpty.includes("Kontak resmi belum diatur."));
 
     // 3. Restore baseline texts
     state = makeBaselineState();

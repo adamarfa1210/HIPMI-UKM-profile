@@ -183,29 +183,35 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
                   PILIH BIDANG PROGRAM KERJA
                 </p>
                 <div className="flex flex-col gap-1">
-                  {bidangItems.map((bidang) => {
-                    const current = pathname === `/program-kerja/${bidang.slug}`;
-                    return (
-                      <Link
-                        key={bidang.slug}
-                        href={`/program-kerja/${bidang.slug}`}
-                        role="menuitem"
-                        className={`flex min-h-[48px] flex-col justify-center rounded-[6px] px-3 py-2 transition ${
-                          current
-                            ? "border border-[#E3EF26]/50 bg-[#06231D]"
-                            : "hover:bg-[#06231D]/70"
-                        }`}
-                      >
-                        <span className="font-display text-[13px] font-bold text-[#FFFDEE]">
-                          Bidang {bidang.shortName}
-                          {current ? "  →" : ""}
-                        </span>
-                        <span className="text-[11px] text-[#C7DCD2]">
-                          {bidang.compartmentSummary}
-                        </span>
-                      </Link>
-                    );
-                  })}
+                  {bidangItems.length === 0 ? (
+                    <p className="px-3 py-2 text-xs text-[#C7DCD2]">
+                      Belum ada bidang yang dipublikasikan.
+                    </p>
+                  ) : (
+                    bidangItems.map((bidang) => {
+                      const current = pathname === `/program-kerja/${bidang.slug}`;
+                      return (
+                        <Link
+                          key={bidang.slug}
+                          href={`/program-kerja/${bidang.slug}`}
+                          role="menuitem"
+                          className={`flex min-h-[48px] flex-col justify-center rounded-[6px] px-3 py-2 transition ${
+                            current
+                              ? "border border-[#E3EF26]/50 bg-[#06231D]"
+                              : "hover:bg-[#06231D]/70"
+                          }`}
+                        >
+                          <span className="font-display text-[13px] font-bold text-[#FFFDEE]">
+                            Bidang {bidang.shortName}
+                            {current ? "  →" : ""}
+                          </span>
+                          <span className="text-[11px] text-[#C7DCD2]">
+                            {bidang.compartmentSummary}
+                          </span>
+                        </Link>
+                      );
+                    })
+                  )}
                 </div>
               </div>
             ) : null}
@@ -285,34 +291,40 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
               </button>
               {mobileProkerOpen ? (
                 <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-[#124236] pl-3">
-                  {bidangItems.map((bidang) => {
-                    const current = pathname === `/program-kerja/${bidang.slug}`;
-                    return (
-                      <Link
-                        key={bidang.slug}
-                        href={`/program-kerja/${bidang.slug}`}
-                        onClick={() => setMobileOpen(false)}
-                        aria-current={current ? "page" : undefined}
-                        className={`flex min-h-[44px] flex-col justify-center rounded-[4px] px-3 py-1.5 transition ${
-                          current
-                            ? "border border-[#E3EF26]/50 bg-[#09352C]"
-                            : "hover:bg-[#09352C]"
-                        }`}
-                      >
-                        <span
-                          className={`font-display text-xs font-bold ${
-                            current ? "text-[#E3EF26]" : "text-[#FFFDEE]"
+                  {bidangItems.length === 0 ? (
+                    <p className="px-3 py-2 text-xs text-[#C7DCD2]">
+                      Belum ada bidang yang dipublikasikan.
+                    </p>
+                  ) : (
+                    bidangItems.map((bidang) => {
+                      const current = pathname === `/program-kerja/${bidang.slug}`;
+                      return (
+                        <Link
+                          key={bidang.slug}
+                          href={`/program-kerja/${bidang.slug}`}
+                          onClick={() => setMobileOpen(false)}
+                          aria-current={current ? "page" : undefined}
+                          className={`flex min-h-[44px] flex-col justify-center rounded-[4px] px-3 py-1.5 transition ${
+                            current
+                              ? "border border-[#E3EF26]/50 bg-[#09352C]"
+                              : "hover:bg-[#09352C]"
                           }`}
                         >
-                          Bidang {bidang.shortName}
-                          {current ? "  →" : ""}
-                        </span>
-                        <span className="text-[11px] text-[#C7DCD2]">
-                          {bidang.compartmentSummary}
-                        </span>
-                      </Link>
-                    );
-                  })}
+                          <span
+                            className={`font-display text-xs font-bold ${
+                              current ? "text-[#E3EF26]" : "text-[#FFFDEE]"
+                            }`}
+                          >
+                            Bidang {bidang.shortName}
+                            {current ? "  →" : ""}
+                          </span>
+                          <span className="text-[11px] text-[#C7DCD2]">
+                            {bidang.compartmentSummary}
+                          </span>
+                        </Link>
+                      );
+                    })
+                  )}
                 </div>
               ) : null}
             </div>
