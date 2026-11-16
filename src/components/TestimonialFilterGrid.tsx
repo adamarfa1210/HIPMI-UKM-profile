@@ -2,16 +2,21 @@
 
 import { useState } from "react";
 import { TESTIMONIALS } from "@/services/content";
+import type { TestimonialItem } from "@/types/content";
 
 const FILTERS = ["Semua", "Kader & Alumni", "Mitra Kolaborasi"] as const;
 
-export function TestimonialFilterGrid() {
+export function TestimonialFilterGrid({
+  items = TESTIMONIALS,
+}: {
+  items?: TestimonialItem[];
+}) {
   const [selected, setSelected] = useState<string>("Semua");
 
   const visible =
     selected === "Semua"
-      ? TESTIMONIALS
-      : TESTIMONIALS.filter((t) => t.category === selected);
+      ? items
+      : items.filter((t) => t.category === selected);
 
   return (
     <section className="bg-white py-16 text-[#313238] md:py-20">

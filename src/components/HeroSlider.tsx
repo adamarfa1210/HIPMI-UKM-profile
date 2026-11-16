@@ -3,9 +3,19 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { HERO_SLIDES } from "@/services/content";
+import type { CompanyVideo, HeroSlide } from "@/types/content";
 import { VideoModal } from "@/components/VideoModal";
 
-export function HeroSlider() {
+interface HeroSliderProps {
+  slides?: HeroSlide[];
+  companyVideo?: CompanyVideo;
+}
+
+export function HeroSlider({
+  slides = HERO_SLIDES,
+  companyVideo,
+}: HeroSliderProps) {
+  const activeSlides = slides.length > 0 ? slides : HERO_SLIDES;
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -20,12 +30,13 @@ export function HeroSlider() {
   useEffect(() => {
     if (paused) return;
     const timer = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+      setActiveIndex((prev) => (prev + 1) % activeSlides.length);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, [paused, activeSlides.length]);
 
-  const currentSlide = HERO_SLIDES[activeIndex];
+  const safeIdx = activeIndex % activeSlides.length;
+  const currentSlide = activeSlides[safeIdx];
 
   return (
     <section
@@ -33,12 +44,12 @@ export function HeroSlider() {
       className="relative flex min-h-[640px] w-full flex-col justify-end overflow-hidden bg-[#06231D] lg:min-h-[680px]"
     >
       {/* Full-Bleed Backdrop Layers */}
-      {HERO_SLIDES.map((slide, idx) => (
+      {activeSlides.map((slide, idx) => (
         <div
           key={slide.id}
-          aria-hidden={idx !== activeIndex}
+          aria-hidden={idx !== safeIdx}
           className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${
-            idx === activeIndex ? "opacity-100" : "opacity-0"
+            idx === safeIdx ? "opacity-100" : "opacity-0"
           }`}
         >
           <img
@@ -98,19 +109,19 @@ export function HeroSlider() {
               {currentSlide.indexLabel}
             </span>
             <div className="flex items-center gap-1" role="tablist" aria-label="Pilih slide hero">
-              {HERO_SLIDES.map((s, idx) => (
+              {activeSlides.map((s, idx) => (
                 <button
                   key={s.id}
                   type="button"
                   role="tab"
-                  aria-selected={idx === activeIndex}
+                  aria-selected={idx === safeIdx}
                   aria-label={`Tampilkan slide hero ${idx + 1}`}
                   onClick={() => setActiveIndex(idx)}
                   className="inline-flex h-9 min-w-[24px] cursor-pointer items-center justify-center px-1"
                 >
                   <span
                     className={`block h-1 rounded-full transition-all ${
-                      idx === activeIndex
+                      idx === safeIdx
                         ? "w-7 bg-[#E3EF26]"
                         : "w-2.5 bg-white/35 hover:bg-white/70"
                     }`}
@@ -146,6 +157,9 @@ export function HeroSlider() {
       <VideoModal
         open={videoModalOpen}
         onClose={() => setVideoModalOpen(false)}
+        posterSrc={companyVideo?.posterSrc}
+        posterAlt={companyVideo?.posterAlt}
+        videoUrl={companyVideo?.videoUrl}
       />
     </section>
   );

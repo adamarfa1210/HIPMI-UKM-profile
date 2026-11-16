@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PARTNER_ITEMS } from "@/services/content";
+import type { PartnerItem } from "@/types/content";
 
-export function PartnershipMarquee() {
+export function PartnershipMarquee({ items = PARTNER_ITEMS }: { items?: PartnerItem[] }) {
+  const activeItems = items.length > 0 ? items : PARTNER_ITEMS;
   const [paused, setPaused] = useState(false);
 
   return (
@@ -60,7 +62,7 @@ export function PartnershipMarquee() {
         />
 
         <div className="animate-marquee items-center gap-6 px-4">
-          {[...PARTNER_ITEMS, ...PARTNER_ITEMS].map((partner, index) => (
+          {[...activeItems, ...activeItems].map((partner, index) => (
             <div
               key={`${partner.id}-${index}`}
               className="flex h-[88px] w-[250px] shrink-0 items-center gap-3.5 border border-[#E5E7EB] bg-white px-4 py-3"

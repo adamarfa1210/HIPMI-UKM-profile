@@ -3,11 +3,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { COMPANY_VIDEO, TENTANG_PILLARS } from "@/services/content";
+import type { CompanyVideo, TentangPillarItem } from "@/types/content";
 import { VideoModal } from "@/components/VideoModal";
 
 const PILLAR_LINKS = ["/bisnis-kader", "/partnership", "/program-kerja/okk"] as const;
 
-export function TentangSection() {
+interface TentangSectionProps {
+  companyVideo?: CompanyVideo;
+  pillars?: TentangPillarItem[];
+}
+
+export function TentangSection({
+  companyVideo = COMPANY_VIDEO,
+  pillars = TENTANG_PILLARS.map((p) => ({ ...p })),
+}: TentangSectionProps) {
   const [videoOpen, setVideoOpen] = useState(false);
 
   return (
@@ -20,21 +29,20 @@ export function TentangSection() {
         <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-[#076653]">
-              TENTANG HIPMI PT
+              {companyVideo.eyebrow || "TENTANG HIPMI PT"}
             </p>
             <h2 className="mt-3 font-display text-[30px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#313238] sm:text-[38px]">
-              {COMPANY_VIDEO.title}
+              {companyVideo.title}
             </h2>
           </div>
 
           <div className="space-y-4 lg:col-span-6 lg:col-start-7">
             <p className="text-[15px] leading-[1.75] text-[#5E636B]">
-              {COMPANY_VIDEO.description}
+              {companyVideo.description}
             </p>
             <p className="text-[15px] leading-[1.75] text-[#5E636B]">
-              Melalui sinergi pembinaan bisnis mahasiswa, jejaring alumni HIPMI
-              nasional, dan kolaborasi mitra industri, setiap kader ditempa untuk
-              siap membangun usaha berdaya saing tinggi.
+              {companyVideo.secondaryDescription ||
+                "Melalui sinergi pembinaan bisnis mahasiswa, jejaring alumni HIPMI nasional, dan kolaborasi mitra industri, setiap kader ditempa untuk siap membangun usaha berdaya saing tinggi."}
             </p>
             <div className="pt-1">
               <Link
@@ -57,8 +65,8 @@ export function TentangSection() {
             className="group relative block aspect-video w-full cursor-pointer overflow-hidden bg-[#06231D] text-left shadow-sm"
           >
             <img
-              src={COMPANY_VIDEO.posterSrc}
-              alt={COMPANY_VIDEO.posterAlt}
+              src={companyVideo.posterSrc}
+              alt={companyVideo.posterAlt}
               width={1280}
               height={720}
               className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
@@ -88,7 +96,7 @@ export function TentangSection() {
 
         {/* 3 Pillars Row with Crisp Hairline Dividers (No Boxy Card Borders) */}
         <div className="mt-16 grid gap-10 border-t border-[#ECEEEF] pt-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
-          {TENTANG_PILLARS.map((pillar, idx) => {
+          {pillars.map((pillar, idx) => {
             const cleanTitle = pillar.title.replace(/^\d+\s*•\s*/, "");
             return (
               <div
@@ -114,7 +122,13 @@ export function TentangSection() {
         </div>
       </div>
 
-      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
+      <VideoModal
+        open={videoOpen}
+        onClose={() => setVideoOpen(false)}
+        posterSrc={companyVideo.posterSrc}
+        posterAlt={companyVideo.posterAlt}
+        videoUrl={companyVideo.videoUrl}
+      />
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { getHomeData } from "@/services/api";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,11 +18,13 @@ export const metadata: Metadata = {
     "Website resmi UKM Himpunan Pengusaha Muda Indonesia Perguruan Tinggi (HIPMI PT) Universitas Telkom Bandung.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const home = await getHomeData();
+
   return (
     <html lang="id" className={inter.variable}>
       <body className="flex min-h-screen flex-col antialiased">
@@ -31,11 +34,11 @@ export default function RootLayout({
         >
           Lewati ke konten utama
         </a>
-        <Navbar />
+        <Navbar bidangs={home.bidangs} announcements={home.announcements} />
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <Footer />
+        <Footer siteConfig={home.siteConfig} />
       </body>
     </html>
   );

@@ -5,7 +5,9 @@ import {
   type DirectoryCardItem,
 } from "@/components/DirectoryFilterGrid";
 import { SubpageBannerCta } from "@/components/SubpageBannerCta";
-import { KADER_BUSINESSES } from "@/services/content";
+import { getKaderBusinesses, getSiteConfig } from "@/services/api";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Bisnis Kader | UKM HIPMI PT Universitas Telkom",
@@ -13,8 +15,13 @@ export const metadata: Metadata = {
     "Etalase rintisan dan usaha aktif kader UKM HIPMI PT Universitas Telkom Bandung.",
 };
 
-export default function BisnisKaderPage() {
-  const cards: DirectoryCardItem[] = KADER_BUSINESSES.map((item) => ({
+export default async function BisnisKaderPage() {
+  const [businesses, siteConfig] = await Promise.all([
+    getKaderBusinesses(),
+    getSiteConfig(),
+  ]);
+
+  const cards: DirectoryCardItem[] = businesses.map((item) => ({
     id: item.id,
     category: item.sector,
     title: item.businessName,
@@ -33,9 +40,9 @@ export default function BisnisKaderPage() {
       <SubpageMasthead
         eyebrow="01 / KADER ENTREPRENEUR SHOWCASE"
         title="BISNIS KADER"
-        description="Etalase usaha rintisan dan bisnis aktif milik kader UKM HIPMI PT Universitas Telkom lintas sektor industri. Seluruh profil dikurasi dan terhubung ke /api/kader-businesses."
+        description="Etalase usaha rintisan dan bisnis aktif milik kader UKM HIPMI PT Universitas Telkom lintas sektor industri yang dikurasi langsung melalui sistem CMS."
         primaryCtaLabel="Daftarkan Usaha Kader"
-        primaryCtaHref="#kontak-kolaborasi"
+        primaryCtaHref={siteConfig.ctaBusinessHref || "#kontak-kolaborasi"}
         secondaryCtaLabel="Lihat Direktori Lengkap"
         secondaryCtaHref="#direktori"
         showcaseLabel="KADER ENTREPRENEUR SHOWCASE"
@@ -61,7 +68,7 @@ export default function BisnisKaderPage() {
         heading="Kader HIPMI PT Telkom Memiliki Usaha Aktif?"
         description="Ajukan profil usaha untuk diverifikasi pengurus dan dipublikasikan di etalase resmi Direktori Bisnis Kader Universitas Telkom."
         ctaLabel="Ajukan Kurasi Usaha"
-        ctaHref="/#tentang"
+        ctaHref={siteConfig.whatsappContactUrl || "/#tentang"}
       />
     </>
   );

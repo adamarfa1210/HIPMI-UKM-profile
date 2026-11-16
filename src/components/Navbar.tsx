@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BIDANG_LIST } from "@/services/content";
+import type { AnnouncementItem, BidangSummary } from "@/types/content";
 
 const NAV_LINKS = [
   { href: "/#tentang", label: "Tentang" },
@@ -12,7 +13,22 @@ const NAV_LINKS = [
   { href: "/prestasi", label: "Prestasi" },
 ] as const;
 
-export function Navbar() {
+interface NavbarProps {
+  bidangs?: BidangSummary[];
+  announcements?: AnnouncementItem[];
+}
+
+export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
+  const bidangItems: BidangSummary[] =
+    bidangs && bidangs.length > 0
+      ? bidangs
+      : BIDANG_LIST.map((b) => ({
+          slug: b.slug,
+          shortName: b.shortName,
+          title: b.title,
+          compartmentSummary: b.compartmentSummary,
+        }));
+  const activeAnnouncement = announcements[0] ?? null;
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -52,6 +68,25 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#124236] bg-[#06231D]/95 backdrop-blur-md">
+      {activeAnnouncement ? (
+        <div className="border-b border-[#124236] bg-[#041612] px-4 py-2 text-xs text-[#FFFDEE]">
+          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 sm:px-2 lg:px-6">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span className="shrink-0 rounded-[4px] bg-[#E3EF26] px-2 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.06em] text-[#06231D]">
+                INFO TERKINI
+              </span>
+              <p className="truncate font-medium text-[#FFFDEE]">
+                <strong className="font-bold text-[#E3EF26]">
+                  {activeAnnouncement.title}
+                </strong>
+                {activeAnnouncement.content
+                  ? ` — ${activeAnnouncement.content}`
+                  : ""}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="mx-auto flex h-[84px] max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-10">
         {/* Dual Brand Logos */}
         <Link
@@ -148,7 +183,7 @@ export function Navbar() {
                   PILIH BIDANG PROGRAM KERJA
                 </p>
                 <div className="flex flex-col gap-1">
-                  {BIDANG_LIST.map((bidang) => {
+                  {bidangItems.map((bidang) => {
                     const current = pathname === `/program-kerja/${bidang.slug}`;
                     return (
                       <Link
@@ -250,7 +285,7 @@ export function Navbar() {
               </button>
               {mobileProkerOpen ? (
                 <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-[#124236] pl-3">
-                  {BIDANG_LIST.map((bidang) => {
+                  {bidangItems.map((bidang) => {
                     const current = pathname === `/program-kerja/${bidang.slug}`;
                     return (
                       <Link

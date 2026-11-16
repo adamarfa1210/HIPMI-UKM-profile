@@ -5,7 +5,9 @@ import {
   type DirectoryCardItem,
 } from "@/components/DirectoryFilterGrid";
 import { SubpageBannerCta } from "@/components/SubpageBannerCta";
-import { ACHIEVEMENTS } from "@/services/content";
+import { getAchievements, getSiteConfig } from "@/services/api";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Prestasi Kader | UKM HIPMI PT Universitas Telkom",
@@ -13,8 +15,13 @@ export const metadata: Metadata = {
     "Arsip resmi pencapaian kompetisi bisnis, pendanaan hibah, dan rekognisi kader UKM HIPMI PT Universitas Telkom.",
 };
 
-export default function PrestasiPage() {
-  const cards: DirectoryCardItem[] = ACHIEVEMENTS.map((item) => ({
+export default async function PrestasiPage() {
+  const [achievements, siteConfig] = await Promise.all([
+    getAchievements(),
+    getSiteConfig(),
+  ]);
+
+  const cards: DirectoryCardItem[] = achievements.map((item) => ({
     id: item.id,
     category: item.category,
     title: item.title,
@@ -33,9 +40,9 @@ export default function PrestasiPage() {
       <SubpageMasthead
         eyebrow="01 / HALL OF ACHIEVEMENT"
         title="PRESTASI KADER"
-        description="Arsip resmi pencapaian kompetisi bisnis, pendanaan hibah kewirausahaan, serta rekognisi kader UKM HIPMI PT Universitas Telkom yang terhubung ke /api/achievements."
+        description="Arsip resmi pencapaian kompetisi bisnis, pendanaan hibah kewirausahaan, serta rekognisi kader UKM HIPMI PT Universitas Telkom."
         primaryCtaLabel="Laporkan Prestasi Kader"
-        primaryCtaHref="#kontak-kolaborasi"
+        primaryCtaHref={siteConfig.ctaAchievementHref || "#kontak-kolaborasi"}
         secondaryCtaLabel="Jelajahi Arsip Prestasi"
         secondaryCtaHref="#direktori"
         showcaseLabel="HALL OF ACHIEVEMENT & RECOGNITION"
@@ -61,7 +68,7 @@ export default function PrestasiPage() {
         heading="Catatkan Prestasi Bisnis & Kompetisi Kader"
         description="Pengiriman bukti sertifikat atau pengumuman hibah akan diverifikasi pengurus sebelum ditampilkan pada halaman Hall of Achievement."
         ctaLabel="Kirim Bukti ke Sekretariat"
-        ctaHref="/#tentang"
+        ctaHref={siteConfig.whatsappContactUrl || "/#tentang"}
       />
     </>
   );

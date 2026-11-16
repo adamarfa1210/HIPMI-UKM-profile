@@ -6,9 +6,18 @@ import { COMPANY_VIDEO } from "@/services/content";
 interface VideoModalProps {
   open: boolean;
   onClose: () => void;
+  posterSrc?: string;
+  posterAlt?: string;
+  videoUrl?: string | null;
 }
 
-export function VideoModal({ open, onClose }: VideoModalProps) {
+export function VideoModal({
+  open,
+  onClose,
+  posterSrc = COMPANY_VIDEO.posterSrc,
+  posterAlt = COMPANY_VIDEO.posterAlt,
+  videoUrl = COMPANY_VIDEO.videoUrl,
+}: VideoModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -50,21 +59,21 @@ export function VideoModal({ open, onClose }: VideoModalProps) {
         </div>
 
         <div className="aspect-video w-full bg-[#041612]">
-          {COMPANY_VIDEO.videoUrl ? (
+          {videoUrl ? (
             <video
               controls
               preload="none"
-              poster={COMPANY_VIDEO.posterSrc}
+              poster={posterSrc}
               className="h-full w-full object-cover"
             >
-              <source src={COMPANY_VIDEO.videoUrl} type="video/mp4" />
+              <source src={videoUrl} type="video/mp4" />
               Browser Anda tidak mendukung pemutar video HTML5.
             </video>
           ) : (
             <div className="relative flex h-full w-full items-center justify-center">
               <img
-                src={COMPANY_VIDEO.posterSrc}
-                alt={COMPANY_VIDEO.posterAlt}
+                src={posterSrc}
+                alt={posterAlt}
                 width={1280}
                 height={720}
                 className="h-full w-full object-cover opacity-55"

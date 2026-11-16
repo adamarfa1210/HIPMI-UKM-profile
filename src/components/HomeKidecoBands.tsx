@@ -8,7 +8,12 @@ import {
   KADER_BUSINESSES,
   PARTNER_ITEMS,
 } from "@/services/content";
-import type { BidangSlug } from "@/types/content";
+import type {
+  BidangSlug,
+  BidangSummary,
+  HomeStats,
+  KaderBusiness,
+} from "@/types/content";
 import { CarouselHeader } from "@/components/CarouselHeader";
 import { MediaSlot } from "@/components/MediaSlot";
 
@@ -32,27 +37,37 @@ const BIDANG_TILE_MEDIA: Record<BidangSlug, { imageSrc: string; imageAlt: string
 };
 
 /** Kideco-inspired structural highlight strip showing real, non-fabricated entity counts. */
-export function KidecoStatsBand() {
-  const totalCompartments = BIDANG_LIST.reduce(
-    (sum, item) => sum + BIDANG_PROGRAMS[item.slug].compartments.length,
-    0
-  );
-  const totalPrograms = BIDANG_LIST.reduce(
-    (sum, item) =>
-      sum +
-      BIDANG_PROGRAMS[item.slug].compartments.reduce(
-        (cSum, comp) =>
-          cSum + comp.prokerSlides.length + comp.jobdeskSlides.length,
-        0
-      ),
-    0
-  );
+export function KidecoStatsBand({ stats }: { stats?: HomeStats }) {
+  const totalCompartments =
+    stats?.compartmentCount ??
+    BIDANG_LIST.reduce(
+      (sum, item) => sum + BIDANG_PROGRAMS[item.slug].compartments.length,
+      0
+    );
+  const totalPrograms =
+    stats?.prokerJobdeskCount ??
+    BIDANG_LIST.reduce(
+      (sum, item) =>
+        sum +
+        BIDANG_PROGRAMS[item.slug].compartments.reduce(
+          (cSum, comp) =>
+            cSum + comp.prokerSlides.length + comp.jobdeskSlides.length,
+          0
+        ),
+      0
+    );
 
   const metrics = [
-    { value: String(BIDANG_LIST.length), label: "Bidang Eksekutif Aktif" },
+    {
+      value: String(stats?.bidangCount ?? BIDANG_LIST.length),
+      label: "Bidang Eksekutif Aktif",
+    },
     { value: String(totalCompartments), label: "Kompartemen Pengurus" },
     { value: String(totalPrograms), label: "Agenda Kerja & Jobdesk" },
-    { value: String(PARTNER_ITEMS.length), label: "Klaster Mitra Kolaborasi" },
+    {
+      value: String(stats?.partnerCount ?? PARTNER_ITEMS.length),
+      label: "Klaster Mitra Kolaborasi",
+    },
   ];
 
   return (
@@ -89,7 +104,16 @@ export function KidecoStatsBand() {
 }
 
 /** Kideco "Integrasi Strategi" centered photography tiles linking to the 4 Bidang routes. */
-export function HomeBidangTiles() {
+export function HomeBidangTiles({ bidangs }: { bidangs?: BidangSummary[] }) {
+  const list: BidangSummary[] =
+    bidangs && bidangs.length > 0
+      ? bidangs
+      : BIDANG_LIST.map((b) => ({
+          slug: b.slug,
+          shortName: b.shortName,
+          title: b.title,
+          compartmentSummary: b.compartmentSummary,
+        }));
   return (
     <section
       id="program-kerja"
@@ -110,8 +134,8 @@ export function HomeBidangTiles() {
         </div>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {BIDANG_LIST.map((bidang) => {
-            const tile = BIDANG_TILE_MEDIA[bidang.slug];
+          {list.map((bidang) => {
+            const tile = BIDANG_TILE_MEDIA[bidang.slug] ?? BIDANG_TILE_MEDIA.okk;
             return (
               <Link
                 key={bidang.slug}
@@ -151,16 +175,16 @@ export function HomeBidangTiles() {
 }
 
 /** Kideco "Berita Terbaru" muted grey 3-column carousel section showcasing Bisnis Kader. */
-export function HomeBusinessCarousel() {
+export function HomeBusinessCarousel({ items = KADER_BUSINESSES }: { items?: KaderBusiness[] }) {
+  const activeItems = items.length > 0 ? items : KADER_BUSINESSES;
   const [index, setIndex] = useState(0);
-  const total = KADER_BUSINESSES.length;
+  const total = activeItems.length;
 
   const goPrev = () => setIndex((prev) => (prev - 1 + total) % total);
   const goNext = () => setIndex((prev) => (prev + 1) % total);
 
-  const visibleItems = [0, 1, 2].map(
-    (offset) => KADER_BUSINESSES[(index + offset) % total]
-  );
+  const visibleCount = Math.min(3, total);
+  const visibleItems = Array.from({ length: visibleCount }, (_, offset) => activeItems[(index + offset) % total]);
 
   return (
     <section

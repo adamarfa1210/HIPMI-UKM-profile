@@ -3,19 +3,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ACHIEVEMENTS } from "@/services/content";
+import type { AchievementItem } from "@/types/content";
 import { MediaSlot } from "@/components/MediaSlot";
 import { CarouselHeader } from "@/components/CarouselHeader";
 
-export function AchievementSlider() {
-  const [index, setIndex] = useState(3);
-  const total = ACHIEVEMENTS.length;
+export function AchievementSlider({ items = ACHIEVEMENTS }: { items?: AchievementItem[] }) {
+  const activeItems = items.length > 0 ? items : ACHIEVEMENTS;
+  const total = activeItems.length;
+  const [index, setIndex] = useState(total > 3 ? 3 : 0);
 
   const goPrev = () => setIndex((prev) => (prev - 1 + total) % total);
   const goNext = () => setIndex((prev) => (prev + 1) % total);
 
-  const visibleItems = [0, 1, 2].map(
-    (offset) => ACHIEVEMENTS[(index + offset) % total]
-  );
+  const visibleCount = Math.min(3, total);
+  const visibleItems = Array.from({ length: visibleCount }, (_, offset) => activeItems[(index + offset) % total]);
 
   return (
     <section

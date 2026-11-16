@@ -13,9 +13,52 @@ export interface CompanyVideo {
   eyebrow: string;
   title: string;
   description: string;
+  secondaryDescription?: string | null;
   posterSrc: string;
   posterAlt: string;
   videoUrl: string | null;
+}
+
+export interface TentangPillarItem {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface HomeStats {
+  bidangCount: number;
+  compartmentCount: number;
+  prokerJobdeskCount: number;
+  partnerCount: number;
+}
+
+export interface BidangSummary {
+  id?: string;
+  slug: BidangSlug;
+  shortName: string;
+  title: string;
+  compartmentSummary: string;
+}
+
+export interface AnnouncementItem {
+  id: string;
+  title: string;
+  content: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface SiteConfig {
+  secretariatAddress: string;
+  officialEmail: string;
+  officialInstagram: string;
+  whatsappContactLabel: string;
+  whatsappContactUrl?: string;
+  copyrightText: string;
+  ctaCollaborationHref: string;
+  ctaBusinessHref: string;
+  ctaAchievementHref: string;
+  googleDocsTemplateUrl?: string | null;
 }
 
 export interface PartnerItem {

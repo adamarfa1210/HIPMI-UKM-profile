@@ -8,18 +8,38 @@ import {
 } from "@/components/HomeKidecoBands";
 import { AchievementSlider } from "@/components/AchievementSlider";
 import { PartnershipMarquee } from "@/components/PartnershipMarquee";
-import { TESTIMONIALS } from "@/services/content";
+import {
+  getAchievements,
+  getHomeData,
+  getKaderBusinesses,
+  getPartners,
+  getTestimonials,
+} from "@/services/api";
 
-export default function HomePage() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const [home, partners, businesses, achievements, testimonials] =
+    await Promise.all([
+      getHomeData(),
+      getPartners(),
+      getKaderBusinesses(),
+      getAchievements(),
+      getTestimonials(),
+    ]);
+
   return (
     <>
-      <HeroSlider />
-      <TentangSection />
-      <KidecoStatsBand />
-      <HomeBidangTiles />
-      <HomeBusinessCarousel />
-      <AchievementSlider />
-      <PartnershipMarquee />
+      <HeroSlider slides={home.heroSlides} companyVideo={home.companyVideo} />
+      <TentangSection
+        companyVideo={home.companyVideo}
+        pillars={home.pillars}
+      />
+      <KidecoStatsBand stats={home.stats} />
+      <HomeBidangTiles bidangs={home.bidangs} />
+      <HomeBusinessCarousel items={businesses} />
+      <AchievementSlider items={achievements} />
+      <PartnershipMarquee items={partners} />
 
       {/* Crisp White Editorial Testimonials Strip */}
       <section
@@ -45,7 +65,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 grid gap-8 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[#E5E7EB]">
-            {TESTIMONIALS.slice(0, 2).map((item, idx) => (
+            {testimonials.slice(0, 2).map((item, idx) => (
               <article
                 key={item.id}
                 className={`flex flex-col justify-between ${

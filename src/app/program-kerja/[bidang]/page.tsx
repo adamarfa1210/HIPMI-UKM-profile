@@ -2,11 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { CompartmentStageCard } from "@/components/CompartmentStage";
-import {
-  BIDANG_LIST,
-  BIDANG_PROGRAMS,
-  isValidBidang,
-} from "@/services/content";
+import { BIDANG_LIST, isValidBidang } from "@/services/content";
+import { getAllProgramKerja, getProgramKerjaByBidang } from "@/services/api";
+
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return BIDANG_LIST.map((b) => ({ bidang: b.slug }));
@@ -21,7 +20,7 @@ export async function generateMetadata({
   if (!isValidBidang(bidang)) {
     return { title: "Program Kerja | UKM HIPMI PT Universitas Telkom" };
   }
-  const page = BIDANG_PROGRAMS[bidang];
+  const page = await getProgramKerjaByBidang(bidang);
   return {
     title: `${page.title} - Program Kerja | UKM HIPMI PT Universitas Telkom`,
     description: page.description,
@@ -38,7 +37,10 @@ export default async function ProgramKerjaBidangPage({
     notFound();
   }
 
-  const currentBidang = BIDANG_PROGRAMS[bidang];
+  const [currentBidang, allBidangs] = await Promise.all([
+    getProgramKerjaByBidang(bidang),
+    getAllProgramKerja(),
+  ]);
 
   return (
     <>
@@ -63,7 +65,7 @@ export default async function ProgramKerjaBidangPage({
               aria-label="Pilih bidang program kerja"
               className="flex flex-wrap gap-2"
             >
-              {BIDANG_LIST.map((item) => {
+              {allBidangs.map((item) => {
                 const active = item.slug === currentBidang.slug;
                 return (
                   <Link

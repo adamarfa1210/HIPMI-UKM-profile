@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { TestimonialFilterGrid } from "@/components/TestimonialFilterGrid";
+import { getTestimonials } from "@/services/api";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Testimoni | UKM HIPMI PT Universitas Telkom",
@@ -7,7 +10,9 @@ export const metadata: Metadata = {
     "Kutipan dan tanggapan resmi kader aktif, alumni pengusaha, serta mitra kolaborasi UKM HIPMI PT Universitas Telkom.",
 };
 
-export default function TestimoniPage() {
+export default async function TestimoniPage() {
+  const testimonials = await getTestimonials();
+
   return (
     <>
       <section className="border-b border-[#124236] bg-gradient-to-br from-[#06231D] to-[#0C342C] py-14 text-[#FFFDEE]">
@@ -22,13 +27,14 @@ export default function TestimoniPage() {
             TESTIMONI
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-[1.6] text-[#C7DCD2]">
-            Kutipan dan tanggapan resmi dari kader aktif, alumni pengusaha, serta
-            mitra kolaborasi UKM HIPMI PT Universitas Telkom (/api/testimonials).
+            Kutipan dan tanggapan resmi yang telah terverifikasi dari kader
+            aktif, alumni pengusaha, serta mitra kolaborasi UKM HIPMI PT
+            Universitas Telkom.
           </p>
         </div>
       </section>
 
-      <TestimonialFilterGrid />
+      <TestimonialFilterGrid items={testimonials} />
     </>
   );
 }

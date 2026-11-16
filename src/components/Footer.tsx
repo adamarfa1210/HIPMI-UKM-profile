@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { DEFAULT_SITE_CONFIG } from "@/services/api";
+import type { SiteConfig } from "@/types/content";
 
 const FOOTER_NAV = [
   { href: "/#tentang", label: "Tentang" },
@@ -9,7 +11,11 @@ const FOOTER_NAV = [
   { href: "/testimoni", label: "Testimoni" },
 ] as const;
 
-export function Footer() {
+export function Footer({
+  siteConfig = DEFAULT_SITE_CONFIG,
+}: {
+  siteConfig?: SiteConfig;
+}) {
   return (
     <footer className="border-t border-[#E5E7EB] bg-[#F8F8F8] text-[#313238]">
       <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 lg:px-10">
@@ -70,11 +76,7 @@ export function Footer() {
               Sekretariat Kampus
             </h2>
             <p className="mt-3 text-xs leading-[1.8] text-[#5E636B]">
-              Student Center Universitas Telkom
-              <br />
-              Jl. Telekomunikasi No. 1, Terusan Buahbatu
-              <br />
-              Kabupaten Bandung, Jawa Barat 40257
+              {siteConfig.secretariatAddress}
             </p>
           </div>
 
@@ -83,9 +85,22 @@ export function Footer() {
               Kontak Resmi
             </h2>
             <ul className="mt-3 space-y-2 text-xs text-[#5E636B]">
-              <li>sekretariat@hipmipt-telkom.org</li>
-              <li>Instagram: @hipmipt.telkom</li>
-              <li>Humas &amp; Kemitraan Pengurus</li>
+              <li>{siteConfig.officialEmail}</li>
+              <li>Instagram: {siteConfig.officialInstagram}</li>
+              <li>
+                {siteConfig.whatsappContactUrl ? (
+                  <a
+                    href={siteConfig.whatsappContactUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition hover:text-[#076653] hover:underline"
+                  >
+                    {siteConfig.whatsappContactLabel}
+                  </a>
+                ) : (
+                  siteConfig.whatsappContactLabel
+                )}
+              </li>
             </ul>
           </div>
         </div>
@@ -98,10 +113,7 @@ export function Footer() {
           className="absolute inset-y-0 left-0 w-2 bg-[#E3EF26]"
         />
         <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-2 px-6 py-4 text-[11px] sm:flex-row sm:items-center lg:px-10">
-          <p>
-            &copy; 2026 <strong className="text-white">UKM HIPMI PT UNIVERSITAS TELKOM</strong>.
-            Seluruh hak cipta dilindungi.
-          </p>
+          <p>{siteConfig.copyrightText}</p>
           <p className="text-[#C7DCD2]/80">
             Ekosistem Wirausaha Mahasiswa Universitas Telkom
           </p>
