@@ -132,6 +132,23 @@ function makeBaselineState() {
         verified: true,
       },
     ],
+    news: [
+      {
+        id: "news-1",
+        title: "Berita Baseline Publik Satu",
+        category: "Kegiatan",
+        summary: "Ringkasan berita baseline pertama untuk pengujian halaman berita UKM.",
+        content: "Isi lengkap berita baseline pertama untuk pengujian halaman detail berita UKM.",
+        imageSrc: null,
+        imageAlt: "Berita Baseline Publik Satu",
+        slotStatus: "pending-asset",
+        targetAudience: "PUBLIC",
+        isFeatured: true,
+        isPublished: true,
+        publishedAt: "2026-11-17T08:00:00.000Z",
+        authorName: "Redaksi Baseline",
+      },
+    ],
   };
 }
 
@@ -178,6 +195,7 @@ function makeEmptyState() {
       },
     ],
     testimonials: [],
+    news: [],
   };
 }
 
@@ -229,6 +247,26 @@ test("Web UKM Profile renders no photos, clears completely on empty CMS, restore
     }
     if (url === "/api/public/testimonials") {
       res.end(JSON.stringify({ success: true, data: state.testimonials }));
+      return;
+    }
+    if (url === "/api/public/news") {
+      res.end(
+        JSON.stringify({
+          success: true,
+          data: state.news.filter((n) => n.targetAudience !== "INTERNAL" && n.isPublished),
+        })
+      );
+      return;
+    }
+    if (url.startsWith("/api/public/news/")) {
+      const id = decodeURIComponent(url.split("/").pop() || "");
+      const found = state.news.find((n) => n.id === id && n.targetAudience !== "INTERNAL" && n.isPublished);
+      if (!found) {
+        res.statusCode = 404;
+        res.end(JSON.stringify({ success: false }));
+        return;
+      }
+      res.end(JSON.stringify({ success: true, data: found }));
       return;
     }
     if (url === "/api/public/site-config") {
@@ -390,15 +428,54 @@ test("Web UKM Profile renders no photos, clears completely on empty CMS, restore
       { id: "testi-add-1", category: "Kader & Alumni", quote: "Testimoni tambahan satu yang panjangnya memenuhi batas.", authorLabel: "Penulis Tambahan Satu", roleOrOrg: "Alumni", verified: true },
       { id: "testi-add-2", category: "Mitra Kolaborasi", quote: "Testimoni tambahan dua yang panjangnya memenuhi batas.", authorLabel: "Penulis Tambahan Dua", roleOrOrg: "Mitra", verified: true }
     );
+    state.news.push(
+      {
+        id: "news-add-1",
+        title: "Berita Tambahan Publik Satu",
+        category: "Bisnis",
+        summary: "Ringkasan berita tambahan publik satu.",
+        content: "Konten berita tambahan publik satu.",
+        imageSrc: null,
+        imageAlt: "Berita Tambahan Publik Satu",
+        slotStatus: "pending-asset",
+        targetAudience: "PUBLIC",
+        isFeatured: false,
+        isPublished: true,
+        publishedAt: "2026-11-17T09:00:00.000Z",
+        authorName: "Redaksi",
+      },
+      {
+        id: "news-add-internal",
+        title: "Berita Khusus Internal ERP",
+        category: "Pengumuman",
+        summary: "Tidak boleh tampil di UKM Profile.",
+        content: "Konten khusus internal.",
+        imageSrc: null,
+        imageAlt: "Berita Khusus Internal ERP",
+        slotStatus: "pending-asset",
+        targetAudience: "INTERNAL",
+        isFeatured: false,
+        isPublished: true,
+        publishedAt: "2026-11-17T09:00:00.000Z",
+        authorName: "Admin",
+      }
+    );
 
     await triggerRevalidate();
     const homeAdded = await fetchText("/");
-    assert.ok(homeAdded.includes("Berita Tambahan 01"));
-    assert.ok(homeAdded.includes("Berita Tambahan 02"));
+    assert.ok(!homeAdded.includes("INFO TERKINI"), "INFO TERKINI ticker must be removed from Navbar");
     assert.ok(homeAdded.includes("Mitra Tambahan Satu"));
     assert.ok(homeAdded.includes("Mitra Tambahan Dua"));
     assert.ok(homeAdded.includes("Bisnis Tambahan Satu"));
     assert.ok(homeAdded.includes("Prestasi Tambahan Satu"));
+
+    const beritaAdded = await fetchText("/berita");
+    assert.ok(beritaAdded.includes("Berita Baseline Publik Satu"));
+    assert.ok(beritaAdded.includes("Berita Tambahan Publik Satu"));
+    assert.ok(!beritaAdded.includes("Berita Khusus Internal ERP"));
+
+    const beritaDetail = await fetchText("/berita/news-1");
+    assert.ok(beritaDetail.includes("Isi lengkap berita baseline pertama"));
 
     const partnerAdded = await fetchText("/partnership");
     assert.ok(partnerAdded.includes("Mitra Tambahan Satu"));
@@ -427,9 +504,13 @@ test("Web UKM Profile renders no photos, clears completely on empty CMS, restore
     await triggerRevalidate();
     const homeCleaned = await fetchText("/");
     assert.ok(homeCleaned.includes("HERO BASELINE TITLE TEST"));
-    assert.ok(!homeCleaned.includes("Berita Tambahan 01"));
+    assert.ok(!homeCleaned.includes("INFO TERKINI"));
     assert.ok(!homeCleaned.includes("Mitra Tambahan Satu"));
     assert.ok(!homeCleaned.includes("Bisnis Tambahan Satu"));
+
+    const beritaCleaned = await fetchText("/berita");
+    assert.ok(!beritaCleaned.includes("Berita Tambahan Publik Satu"));
+    assert.ok(beritaCleaned.includes("Berita Baseline Publik Satu"));
 
     const testiCleaned = await fetchText("/testimoni");
     assert.ok(!testiCleaned.includes("Penulis Tambahan Satu"));

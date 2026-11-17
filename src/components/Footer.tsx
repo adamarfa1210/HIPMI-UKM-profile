@@ -8,6 +8,7 @@ const FOOTER_NAV = [
   { href: "/bisnis-kader", label: "Bisnis Kader" },
   { href: "/prestasi", label: "Prestasi" },
   { href: "/program-kerja/okk", label: "Program Kerja" },
+  { href: "/berita", label: "Berita" },
   { href: "/testimoni", label: "Testimoni" },
 ] as const;
 

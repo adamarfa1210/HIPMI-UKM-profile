@@ -48,6 +48,33 @@ export interface AnnouncementItem {
   endDate?: string;
 }
 
+export type NewsCategory =
+  | "Kegiatan"
+  | "Pengumuman"
+  | "Prestasi"
+  | "Bisnis";
+
+export type NewsTargetAudience = "INTERNAL" | "PUBLIC" | "BOTH";
+
+export interface NewsArticle {
+  id: string;
+  title: string;
+  category: NewsCategory;
+  summary: string;
+  content: string;
+  imageSrc: string | null;
+  imageAlt: string;
+  slotStatus: SlotStatus;
+  targetAudience: NewsTargetAudience;
+  isFeatured: boolean;
+  isPublished: boolean;
+  publishedAt: string | null;
+  createdBy?: string | null;
+  authorName?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+}
+
 export interface SiteConfig {
   secretariatAddress: string;
   officialEmail: string;

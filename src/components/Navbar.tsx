@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BIDANG_LIST } from "@/services/content";
-import type { AnnouncementItem, BidangSummary } from "@/types/content";
+import type { BidangSummary } from "@/types/content";
 
 const NAV_LINKS = [
   { href: "/#tentang", label: "Tentang" },
@@ -15,10 +15,9 @@ const NAV_LINKS = [
 
 interface NavbarProps {
   bidangs?: BidangSummary[];
-  announcements?: AnnouncementItem[];
 }
 
-export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
+export function Navbar({ bidangs }: NavbarProps) {
   const bidangItems: BidangSummary[] =
     bidangs !== undefined
       ? bidangs
@@ -67,26 +66,6 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#124236] bg-[#06231D]/95 backdrop-blur-md">
-      {announcements.length > 0 ? (
-        <div className="border-b border-[#124236] bg-[#041612] px-4 py-2 text-xs text-[#FFFDEE]">
-          <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-3 sm:px-2 lg:px-6">
-            <div className="flex min-w-0 items-center gap-2.5">
-              <span className="shrink-0 rounded-[4px] bg-[#E3EF26] px-2 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.06em] text-[#06231D]">
-                INFO TERKINI
-              </span>
-              <p className="truncate font-medium text-[#FFFDEE]">
-                {announcements.map((ann, idx) => (
-                  <span key={ann.id}>
-                    {idx > 0 ? "  |  " : null}
-                    <strong className="font-bold text-[#E3EF26]">{ann.title}</strong>
-                    {ann.content ? ` — ${ann.content}` : ""}
-                  </span>
-                ))}
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
       <div className="mx-auto flex h-[84px] max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-10">
         {/* Dual Brand Logos */}
         <Link
@@ -218,6 +197,17 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
           </div>
 
           <Link
+            href="/berita"
+            className={`inline-flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium transition ${
+              pathname.startsWith("/berita")
+                ? "text-[#E3EF26]"
+                : "text-[#FFFDEE] hover:text-[#E3EF26]"
+            }`}
+          >
+            Berita
+          </Link>
+
+          <Link
             href="/testimoni"
             className={`inline-flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium transition ${
               pathname === "/testimoni"
@@ -328,6 +318,19 @@ export function Navbar({ bidangs, announcements = [] }: NavbarProps) {
                 </div>
               ) : null}
             </div>
+
+            <Link
+              href="/berita"
+              onClick={() => setMobileOpen(false)}
+              aria-current={pathname.startsWith("/berita") ? "page" : undefined}
+              className={`flex min-h-[44px] items-center rounded-[4px] px-3 text-sm font-medium transition hover:bg-[#0C342C] hover:text-[#E3EF26] ${
+                pathname.startsWith("/berita")
+                  ? "bg-[#0C342C] text-[#E3EF26]"
+                  : "text-[#FFFDEE]"
+              }`}
+            >
+              Berita
+            </Link>
 
             <Link
               href="/testimoni"

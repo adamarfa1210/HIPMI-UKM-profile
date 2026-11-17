@@ -36,7 +36,7 @@ export default async function RootLayout({
         >
           Lewati ke konten utama
         </a>
-        <Navbar bidangs={home.bidangs} announcements={home.announcements} />
+        <Navbar bidangs={home.bidangs} />
         <main id="main-content" className="flex-1">
           {children}
         </main>

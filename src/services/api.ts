@@ -19,6 +19,7 @@ import type {
   HeroSlide,
   HomeStats,
   KaderBusiness,
+  NewsArticle,
   PartnerItem,
   SiteConfig,
   TentangPillarItem,
@@ -322,4 +323,45 @@ export async function getSiteConfig(): Promise<SiteConfig> {
     ...DEFAULT_SITE_CONFIG,
     ...api,
   };
+}
+
+function mapNewsArticle(a: any): NewsArticle {
+  const resolvedSrc = resolveMediaUrl(a.imageSrc || a.imageUrl);
+  return {
+    id: String(a.id),
+    title: String(a.title ?? ""),
+    category: a.category || "Kegiatan",
+    summary: String(a.summary ?? ""),
+    content: String(a.content ?? ""),
+    imageSrc: resolvedSrc,
+    imageAlt: String(a.imageAlt || a.title || "Berita HIPMI PT Telkom"),
+    slotStatus: resolvedSrc ? "ready" : "pending-asset",
+    targetAudience: a.targetAudience || "PUBLIC",
+    isFeatured: Boolean(a.isFeatured),
+    isPublished: Boolean(a.isPublished ?? true),
+    publishedAt: a.publishedAt ?? a.createdAt ?? null,
+    createdBy: a.createdBy ?? null,
+    authorName: a.authorName ?? null,
+    createdAt: a.createdAt ?? null,
+    updatedAt: a.updatedAt ?? null,
+  };
+}
+
+export async function getPublicNews(category?: string): Promise<NewsArticle[]> {
+  const query =
+    category && category !== "Semua"
+      ? `/news?category=${encodeURIComponent(category)}`
+      : "/news";
+  const api = await fetchPublic<any[]>(query, ["news"]);
+  if (!Array.isArray(api)) return [];
+  return api.map(mapNewsArticle);
+}
+
+export async function getPublicNewsById(id: string): Promise<NewsArticle | null> {
+  const api = await fetchPublic<any>(`/news/${encodeURIComponent(id)}`, [
+    "news",
+    `news-${id}`,
+  ]);
+  if (!api || !api.id) return null;
+  return mapNewsArticle(api);
 }

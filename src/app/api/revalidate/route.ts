@@ -35,6 +35,8 @@ export async function POST(request: Request) {
   revalidatePath("/partnership");
   revalidatePath("/bisnis-kader");
   revalidatePath("/prestasi");
+  revalidatePath("/berita");
+  revalidatePath("/berita/[id]", "page");
   revalidatePath("/testimoni");
   revalidatePath("/program-kerja/[bidang]", "page");
 
