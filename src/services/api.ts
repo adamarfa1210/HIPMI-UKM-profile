@@ -339,6 +339,7 @@ function mapNewsArticle(a: any): NewsArticle {
     targetAudience: a.targetAudience || "PUBLIC",
     isFeatured: Boolean(a.isFeatured),
     isPublished: Boolean(a.isPublished ?? true),
+    sortOrder: typeof a.sortOrder === "number" ? a.sortOrder : undefined,
     publishedAt: a.publishedAt ?? a.createdAt ?? null,
     createdBy: a.createdBy ?? null,
     authorName: a.authorName ?? null,
