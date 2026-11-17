@@ -10,6 +10,40 @@ interface VideoModalProps {
   videoUrl?: string | null;
 }
 
+/**
+ * Extracts a safe YouTube embed URL from common watch, share, shorts, live, or embed URLs.
+ */
+export function getYouTubeEmbedUrl(rawUrl: string | null | undefined): string | null {
+  if (!rawUrl) return null;
+  try {
+    const parsed = new URL(rawUrl.trim());
+    const host = parsed.hostname.replace(/^www\./i, "").toLowerCase();
+    let videoId = "";
+
+    if (host === "youtu.be") {
+      videoId = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (
+      host === "youtube.com" ||
+      host === "m.youtube.com" ||
+      host === "youtube-nocookie.com"
+    ) {
+      if (parsed.pathname === "/watch") {
+        videoId = parsed.searchParams.get("v") || "";
+      } else {
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        if (parts[0] === "embed" || parts[0] === "shorts" || parts[0] === "live") {
+          videoId = parts[1] || "";
+        }
+      }
+    }
+
+    if (!videoId || !/^[A-Za-z0-9_-]+$/.test(videoId)) return null;
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  } catch {
+    return null;
+  }
+}
+
 export function VideoModal({
   open,
   onClose,
@@ -27,6 +61,8 @@ export function VideoModal({
   }, [open, onClose]);
 
   if (!open) return null;
+
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(videoUrl);
 
   return (
     <div
@@ -58,7 +94,16 @@ export function VideoModal({
         </div>
 
         <div className="aspect-video w-full bg-[#041612]">
-          {videoUrl ? (
+          {youtubeEmbedUrl ? (
+            <iframe
+              src={youtubeEmbedUrl}
+              title="Video Company Profile UKM HIPMI PT Universitas Telkom"
+              className="h-full w-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          ) : videoUrl ? (
             <video
               controls
               preload="none"
